@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 1261026985082100830}
   - component: {fileID: 473255098}
   - component: {fileID: 804967327001075645}
+  - component: {fileID: 1181010380}
   m_Layer: 0
   m_Name: Rocket
   m_TagString: Untagged
@@ -152,9 +153,9 @@ DistanceJoint2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3211402199859356627}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
-  m_EnableCollision: 1
+  m_EnableCollision: 0
   m_ConnectedRigidBody: {fileID: 0}
   m_BreakForce: 100
   m_BreakTorque: Infinity
@@ -162,7 +163,7 @@ DistanceJoint2D:
   m_Anchor: {x: 0.08264932, y: -0.15096217}
   m_ConnectedAnchor: {x: -0.17740689, y: 0.13846207}
   m_AutoConfigureDistance: 1
-  m_Distance: 3.221314
+  m_Distance: 15.707459
   m_MaxDistanceOnly: 1
 --- !u!114 &3211402199859356621
 MonoBehaviour:
@@ -389,6 +390,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!255 &1181010380
+FixedJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3211402199859356627}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -5.950116, y: -14.3265085}
+  m_DampingRatio: 0
+  m_Frequency: 0
 --- !u!1 &4436428652386124693
 GameObject:
   m_ObjectHideFlags: 0

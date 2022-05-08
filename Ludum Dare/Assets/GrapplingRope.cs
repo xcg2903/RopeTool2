@@ -65,12 +65,13 @@ public class GrapplingRope : MonoBehaviour
     {
         if (!strightLine)
         {
-            if (m_lineRenderer.GetPosition(percision - 1).x == grapplingGun.grapplePoint.x)
+            if (Mathf.Abs(m_lineRenderer.GetPosition(percision - 1).x - grapplingGun.grapplePoint.x) < 0.2)
             {
                 strightLine = true;
             }
             else
             {
+                Debug.Log(m_lineRenderer.GetPosition(percision - 1).x + "     " + grapplingGun.grapplePoint.x);
                 DrawRopeWaves();
             }
         }

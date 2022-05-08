@@ -127,7 +127,6 @@ public class GrapplingGun : MonoBehaviour
                     grapplePoint = _hit.point;
                     grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
                     grappleRope.enabled = true;
-                    Grapple();
                 }
             }
         }

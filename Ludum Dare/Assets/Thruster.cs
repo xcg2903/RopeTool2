@@ -5,6 +5,8 @@ using UnityEngine;
 public class Thruster : MonoBehaviour
 {
     Rigidbody2D rb;
+    const float thrustForce = 1.0f;
+
     [SerializeField] bool attached;
     [SerializeField] float forceDirection;
     LineRenderer line;
@@ -37,13 +39,13 @@ public class Thruster : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.W))
                 {
-                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * 1f);
+                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * thrustForce);
                     fireSource.Play();
                     particles.SetActive(true);
                 }
                 if (Input.GetKey(KeyCode.S))
                 {
-                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * -1f);
+                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * -thrustForce);
                     fireSource.Play();
                     particles.SetActive(false);
                 }
@@ -55,11 +57,12 @@ public class Thruster : MonoBehaviour
 
                 line.SetPosition(0, transform.position);
                 line.SetPosition(1, attachedTarget.transform.position);
-            } else
+            }
+            else
             {
                 if (attachedTarget.GetComponent<AIScript>().firingEngines)
                 {
-                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * 0.5f);
+                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * thrustForce / 2);
                     fireSource.Play();
                     particles.SetActive(true);
                 } else
@@ -84,7 +87,7 @@ public class Thruster : MonoBehaviour
         {
             if(!attached)
             {
-                DistanceJoint2D joint = gameObject.GetComponent<DistanceJoint2D>();
+                FixedJoint2D joint = gameObject.GetComponent<FixedJoint2D>();
                 joint.connectedBody = collision.gameObject.GetComponent<Rigidbody2D>();
 
                 //TRIG STUFF
@@ -118,9 +121,9 @@ public class Thruster : MonoBehaviour
     {
         //Add a new joint shortly after the old one breaks
         yield return new WaitForSeconds(0.5f);
-        gameObject.AddComponent<DistanceJoint2D>();
-        DistanceJoint2D newjoint = gameObject.GetComponent<DistanceJoint2D>();
+        gameObject.AddComponent<FixedJoint2D>();
+        FixedJoint2D newjoint = gameObject.GetComponent<FixedJoint2D>();
         newjoint.enableCollision = true;
-        newjoint.maxDistanceOnly = true;
+        //newjoint.maxDistanceOnly = true;
     }
 }
