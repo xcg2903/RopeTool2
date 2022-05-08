@@ -37,13 +37,13 @@ public class Thruster : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.W))
                 {
-                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * 0.5f);
+                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * 1f);
                     fireSource.Play();
                     particles.SetActive(true);
                 }
                 if (Input.GetKey(KeyCode.S))
                 {
-                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * -0.5f);
+                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * -1f);
                     fireSource.Play();
                     particles.SetActive(false);
                 }
