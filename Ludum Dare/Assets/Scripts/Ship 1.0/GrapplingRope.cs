@@ -71,7 +71,7 @@ public class GrapplingRope : MonoBehaviour
             }
             else
             {
-                Debug.Log(m_lineRenderer.GetPosition(percision - 1).x + "     " + grapplingGun.grapplePoint.x);
+                //Debug.Log(m_lineRenderer.GetPosition(percision - 1).x + "     " + grapplingGun.grapplePoint.x);
                 DrawRopeWaves();
             }
         }

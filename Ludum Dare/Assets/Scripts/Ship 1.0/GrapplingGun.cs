@@ -82,7 +82,6 @@ public class GrapplingGun : MonoBehaviour
                     Vector2 firePointDistnace = firePoint.position - gunHolder.localPosition;
                     Vector2 targetPos = grapplePoint - firePointDistnace;
                     gunHolder.position = Vector2.Lerp(gunHolder.position, targetPos, Time.deltaTime * launchSpeed);
-                    Debug.Log(gunHolder);
                 }
             }
         }
@@ -150,13 +149,9 @@ public class GrapplingGun : MonoBehaviour
 
             m_springJoint2D.connectedAnchor = grapplePoint;
             m_springJoint2D.enabled = true;
-
-            Debug.Log("Test2");
         }
         else
         {
-            Debug.Log("Test3");
-
             switch (launchType)
             {
                 case LaunchType.Physics_Launch:
@@ -167,8 +162,6 @@ public class GrapplingGun : MonoBehaviour
                     m_springJoint2D.distance = distanceVector.magnitude;
                     m_springJoint2D.frequency = launchSpeed;
                     m_springJoint2D.enabled = true;
-
-                    Debug.Log("Test");
                     break;
                 case LaunchType.Transform_Launch:
                     m_rigidbody.gravityScale = 0;
