@@ -7,7 +7,7 @@ public class Thruster2 : MonoBehaviour
     Rigidbody2D rb;
     const float thrustForce = 1.0f;
 
-    [SerializeField] bool attached;
+    [SerializeField] public bool attached;
     [SerializeField] float forceDirection;
     LineRenderer line;
 
@@ -35,6 +35,7 @@ public class Thruster2 : MonoBehaviour
         //Apply thrust if attached to ship
         if (attached)
         {
+            /*
             if (attachedTarget.tag == "Player")
             {
                 if (Input.GetKey(KeyCode.W))
@@ -74,6 +75,7 @@ public class Thruster2 : MonoBehaviour
                 line.SetPosition(0, transform.position);
                 line.SetPosition(1, attachedTarget.transform.position);
             }
+            */
         }
         else
         {
