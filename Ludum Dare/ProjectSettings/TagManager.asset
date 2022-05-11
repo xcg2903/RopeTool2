@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - AI
+  - Front
+  - Left
+  - Right
+  - Back
   layers:
   - Default
   - TransparentFX

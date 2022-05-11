@@ -11,10 +11,12 @@ public class Thruster2 : MonoBehaviour
     [SerializeField] float forceDirection;
     LineRenderer line;
 
+    //Visuals
     GameObject player;
     GameObject particles;
     GameObject attachedTarget;
     AudioSource fireSource;
+    KeyCode activeKey;
 
     // Start is called before the first frame update
     void Start()
@@ -32,25 +34,17 @@ public class Thruster2 : MonoBehaviour
     {
         forceDirection = Mathf.Deg2Rad * gameObject.transform.rotation.eulerAngles.z;
 
-        //Apply thrust if attached to ship
+        //Animate Thrusters
         if (attached)
         {
-            /*
             if (attachedTarget.tag == "Player")
             {
-                if (Input.GetKey(KeyCode.W))
+                if (Input.GetKey(activeKey))
                 {
-                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * thrustForce);
                     fireSource.Play();
                     particles.SetActive(true);
                 }
-                if (Input.GetKey(KeyCode.S))
-                {
-                    rb.AddForce(new Vector2(Mathf.Cos(forceDirection), Mathf.Sin(forceDirection)) * -thrustForce);
-                    fireSource.Play();
-                    particles.SetActive(false);
-                }
-                if (!Input.GetKey(KeyCode.W))
+                else
                 {
                     fireSource.Stop();
                     particles.SetActive(false);
@@ -59,6 +53,7 @@ public class Thruster2 : MonoBehaviour
                 line.SetPosition(0, transform.position);
                 line.SetPosition(1, attachedTarget.transform.position);
             }
+            /*
             else
             {
                 if (attachedTarget.GetComponent<AIScript>().firingEngines)
@@ -125,5 +120,28 @@ public class Thruster2 : MonoBehaviour
         FixedJoint2D newjoint = gameObject.GetComponent<FixedJoint2D>();
         newjoint.enableCollision = true;
         //newjoint.maxDistanceOnly = true;
+    }
+
+    public void AssignSide(int side)
+    {
+        switch(side)
+        {
+            //Front
+            case 0:
+                activeKey = KeyCode.W;
+                break;
+            //Back
+            case 1:
+                activeKey = KeyCode.S;
+                break;
+            //Right
+            case 2:
+                activeKey = KeyCode.D;
+                break;
+            //Left
+            case 3:
+                activeKey = KeyCode.A;
+                break;
+        }
     }
 }

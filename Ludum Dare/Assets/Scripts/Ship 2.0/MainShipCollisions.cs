@@ -21,28 +21,84 @@ public class MainShipCollisions : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<Thruster2>())
+        if (collision.gameObject.GetComponent<Thruster2>() && collision.collider.gameObject.tag != "Back")
         {
             hitThruster = collision.gameObject.GetComponent<Thruster2>();
             if (!hitThruster.attached)
             {
                 hitThruster.AttachRocket(gameObject.GetComponentInParent<Rigidbody2D>().gameObject);
 
-                if (gameObject.name == "Front")
+                if (gameObject.tag == "Front")
                 {
-                    playerShip.AddNewThrust(new Vector2(0, -1));
+                    if (collision.collider.gameObject.tag == "Front")
+                    {
+                        playerShip.AddNewThrust(new Vector2(0, -1));
+                        hitThruster.AssignSide(1);
+                    }
+                    if (collision.collider.gameObject.tag == "Right")
+                    {
+                        playerShip.AddNewThrust(new Vector2(1, 0));
+                        hitThruster.AssignSide(2);
+                    }
+                    if (collision.collider.gameObject.tag == "Left")
+                    {
+                        playerShip.AddNewThrust(new Vector2(-1, 0));
+                        hitThruster.AssignSide(3);
+                    }        
                 }
-                if (gameObject.name == "Back")
+                if (gameObject.tag == "Back")
                 {
-                    playerShip.AddNewThrust(new Vector2(0, 1));
+                    if (collision.collider.gameObject.tag == "Front")
+                    {
+                        playerShip.AddNewThrust(new Vector2(0, 1));
+                        hitThruster.AssignSide(0);
+                    }
+                    if (collision.collider.gameObject.tag == "Right")
+                    {
+                        playerShip.AddNewThrust(new Vector2(-1, 0));
+                        hitThruster.AssignSide(3);
+                    }
+                    if (collision.collider.gameObject.tag == "Left")
+                    {
+                        playerShip.AddNewThrust(new Vector2(1, 0));
+                        hitThruster.AssignSide(2);
+                    }
                 }
-                if (gameObject.name == "Left")
+                if (gameObject.tag == "Right")
                 {
-                    playerShip.AddNewThrust(new Vector2(1, 0));
+                    if (collision.collider.gameObject.tag == "Front")
+                    {
+                        playerShip.AddNewThrust(new Vector2(-1, 0));
+                        hitThruster.AssignSide(3);
+                    }
+                    if (collision.collider.gameObject.tag == "Right")
+                    {
+                        playerShip.AddNewThrust(new Vector2(0, -1));
+                        hitThruster.AssignSide(1);
+                    }
+                    if (collision.collider.gameObject.tag == "Left")
+                    {
+                        playerShip.AddNewThrust(new Vector2(0, 1));
+                        hitThruster.AssignSide(0);
+                    }
                 }
-                if (gameObject.name == "Right")
+                if (gameObject.tag == "Left")
                 {
-                    playerShip.AddNewThrust(new Vector2(-1, 0));
+                    if (collision.collider.gameObject.tag == "Front")
+                    {
+                        playerShip.AddNewThrust(new Vector2(1, 0));
+                        hitThruster.AssignSide(2);
+                    }
+                    if (collision.collider.gameObject.tag == "Right")
+                    {
+                        playerShip.AddNewThrust(new Vector2(0, 1));
+                        hitThruster.AssignSide(0);
+                    }
+                    if (collision.collider.gameObject.tag == "Left")
+                    {
+                        playerShip.AddNewThrust(new Vector2(0, -1));
+                        hitThruster.AssignSide(1);
+                    }
                 }
             }
         }

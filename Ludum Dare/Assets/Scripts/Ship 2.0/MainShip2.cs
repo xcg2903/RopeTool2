@@ -7,7 +7,7 @@ public class MainShip2 : MonoBehaviour
     //Thrusters
     Rigidbody2D rb;
     const float torque = 0.02f;
-    const float thrustForce = 5.0f;
+    const float thrustForce = 8.0f;
     const float moveSpeed = 0.05f;
     [SerializeField] Vector2 thrust = new Vector2(0, 0);
 
@@ -67,7 +67,6 @@ public class MainShip2 : MonoBehaviour
         if (Input.GetKey(KeyCode.W))
         {
             rb.AddForce(transform.up * thrustForce * thrust.y);
-            //fireSource.Play();
         }
         if (Input.GetKey(KeyCode.S))
         {
@@ -76,12 +75,12 @@ public class MainShip2 : MonoBehaviour
         }
         if (!Input.GetKey(KeyCode.D))
         {
-            rb.AddForce(transform.right * thrustForce * thrust.x);
+            rb.AddForce(transform.right * thrustForce * -thrust.x);
             //fireSource.Stop();
         }
         if (!Input.GetKey(KeyCode.A))
         {
-            rb.AddForce(transform.right * thrustForce * -thrust.x);
+            rb.AddForce(transform.right * thrustForce * thrust.x);
             //fireSource.Stop();
         }
     }
