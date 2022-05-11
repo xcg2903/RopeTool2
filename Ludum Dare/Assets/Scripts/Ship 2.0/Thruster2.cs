@@ -100,7 +100,7 @@ public class Thruster2 : MonoBehaviour
             float jointAngleShip = Mathf.Atan2(gameObject.transform.position.y - collision.transform.position.y, gameObject.transform.position.x - collision.transform.position.x);
             float myContactAngle = gameObject.transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
             float shipContactAngle = collision.transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
-            Debug.Log(shipContactAngle);
+            //Debug.Log(shipContactAngle);
 
             joint.anchor = new Vector2(Mathf.Cos(jointAngle - myContactAngle) * myRadius, Mathf.Sin(jointAngle - myContactAngle) * myRadius);
             joint.connectedAnchor = new Vector2(Mathf.Cos(jointAngleShip - shipContactAngle) * shipRadius, Mathf.Sin(jointAngleShip - shipContactAngle) * shipRadius);

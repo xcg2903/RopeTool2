@@ -50,11 +50,14 @@ public class GrapplingGun : MonoBehaviour
     [HideInInspector] public Vector2 grapplePoint;
     [HideInInspector] public Vector2 grappleDistanceVector;
 
+    //NEW STUFF
+    [SerializeField] MainShip2 playerShip;
+
     private void Start()
     {
         grappleRope.enabled = false;
         m_springJoint2D.enabled = false;
-
+        playerShip = FindObjectOfType<MainShip2>();
     }
 
     private void Update()
@@ -62,6 +65,7 @@ public class GrapplingGun : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             SetGrapplePoint();
+            playerShip.LockGrappleGun();
         }
         else if (Input.GetKey(KeyCode.Mouse0))
         {
