@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740826780963011592}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.152, y: 0.0042347014, z: 0}
+  m_LocalPosition: {x: 0.093, y: 0.034, z: 0}
   m_LocalScale: {x: 1, y: 1.2528, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -48,7 +48,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.14
+  m_Radius: 0.18
 --- !u!114 &1740826780963011588
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,7 +87,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3141045947463737815}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.16017796, y: -0.007238537, z: 0}
+  m_LocalPosition: {x: -0.094, y: 0.034, z: 0}
   m_LocalScale: {x: 1, y: 1.2528, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -109,7 +109,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.14
+  m_Radius: 0.18
 --- !u!114 &3141045947463737814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 8214594977088914937}
   - component: {fileID: 8214594977615332763}
   - component: {fileID: 3882743756098011473}
+  - component: {fileID: 4767035069084836532}
   m_Layer: 8
   m_Name: Ship 2.0
   m_TagString: Player
@@ -269,7 +270,7 @@ SpringJoint2D:
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
   m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 1
+  m_AutoConfigureDistance: 0
   m_Distance: 0.42347136
   m_DampingRatio: 1
   m_Frequency: 1
@@ -285,9 +286,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60bbbcc48dfe4214c8906bf373931712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrust: {x: 0, y: 0}
+  thrust:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
   grappleGun: {fileID: 0}
   grappleRope: {fileID: 0}
+--- !u!232 &4767035069084836532
+DistanceJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3882743756098011474}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_AutoConfigureDistance: 1
+  m_Distance: 0.42347136
+  m_MaxDistanceOnly: 0
 --- !u!1 &3942889455811311374
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +338,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3942889455811311374}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.337, z: 0}
+  m_LocalPosition: {x: 0, y: 0.313, z: 0}
   m_LocalScale: {x: 1, y: 1.2528, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -336,7 +360,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.07
+  m_Radius: 0.04
 --- !u!114 &842761257329566250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +399,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5564667654924021461}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0.0031347014, y: -0.2965308, z: 0}
+  m_LocalPosition: {x: 0.0031347014, y: -0.333, z: 0}
   m_LocalScale: {x: 1, y: 1.2528, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -520,11 +544,11 @@ MonoBehaviour:
   rotateOverTime: 1
   rotationSpeed: 4
   hasMaxDistance: 1
-  maxDistnace: 20
+  maxDistance: 10
   launchToPoint: 1
   launchType: 1
-  launchSpeed: 0.2
-  autoConfigureDistance: 0
+  launchSpeed: 0.05
+  autoConfigureDistance: 1
   targetDistance: 3
   targetFrequncy: 1
   grapplePoint: {x: 0, y: 0}

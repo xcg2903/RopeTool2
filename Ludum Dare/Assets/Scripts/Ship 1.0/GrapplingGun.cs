@@ -29,7 +29,7 @@ public class GrapplingGun : MonoBehaviour
 
     [Header("Distance:")]
     [SerializeField] private bool hasMaxDistance = false;
-    [SerializeField] private float maxDistnace = 20;
+    [SerializeField] private float maxDistance = 20;
 
     private enum LaunchType
     {
@@ -122,10 +122,13 @@ public class GrapplingGun : MonoBehaviour
         Vector2 distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
         if (Physics2D.Raycast(firePoint.position, distanceVector.normalized))
         {
-            RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized);
-            if (_hit.transform.gameObject.layer == grappableLayerNumber || grappleToAll)
+            LayerMask mask = LayerMask.GetMask("Wall");
+            RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized, maxDistance, mask);
+
+            //if (_hit.transform.gameObject.layer == grappableLayerNumber || grappleToAll)
+            if(_hit.collider != null)
             {
-                if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistnace || !hasMaxDistance)
+                if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistance || !hasMaxDistance)
                 {
                     grapplePoint = _hit.point;
                     grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
@@ -180,7 +183,7 @@ public class GrapplingGun : MonoBehaviour
         if (firePoint != null && hasMaxDistance)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(firePoint.position, maxDistnace);
+            Gizmos.DrawWireSphere(firePoint.position, maxDistance);
         }
     }
 }

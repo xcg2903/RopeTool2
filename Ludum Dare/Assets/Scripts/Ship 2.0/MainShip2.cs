@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainShip2 : MonoBehaviour
 {
@@ -74,6 +75,11 @@ public class MainShip2 : MonoBehaviour
             rb.AddForce(rb.transform.up * thrustForce * thrust[3].y);
             rb.AddForce(rb.transform.right * thrustForce * thrust[3].x);
             //fireSource.Stop();
+        }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("Testing");
         }
     }
 
