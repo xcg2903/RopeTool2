@@ -40,7 +40,9 @@ public class GrapplingGun : MonoBehaviour
     [Header("Launching:")]
     [SerializeField] private bool launchToPoint = true;
     [SerializeField] private LaunchType launchType = LaunchType.Physics_Launch;
-    [SerializeField] private float launchSpeed = 1;
+    [SerializeField] private const float lauchSpeedConst = 0.05f;
+    [SerializeField] private float launchSpeed = 0.05f;
+    [SerializeField] private float currentDistance;
 
     [Header("No Launch To Point")]
     [SerializeField] private bool autoConfigureDistance = false;
@@ -87,12 +89,28 @@ public class GrapplingGun : MonoBehaviour
                     Vector2 targetPos = grapplePoint - firePointDistnace;
                     gunHolder.position = Vector2.Lerp(gunHolder.position, targetPos, Time.deltaTime * launchSpeed);
                 }
+                if(launchType == LaunchType.Physics_Launch)
+                {
+                    float distanceToGrapple = Vector2.Distance(grapplePoint, firePoint.position);
+
+                    if (distanceToGrapple < currentDistance * 0.6)
+                    {
+                        launchSpeed = lauchSpeedConst;
+                    }
+                    else
+                    {
+                        launchSpeed = launchSpeed * 1.002f;
+                    }
+
+                    m_springJoint2D.frequency = launchSpeed;
+                }
             }
         }
         else if (Input.GetKeyUp(KeyCode.Mouse0))
         {
             grappleRope.enabled = false;
             m_springJoint2D.enabled = false;
+            launchSpeed = lauchSpeedConst;
             //m_rigidbody.gravityScale = 1;
         }
         else
@@ -130,6 +148,7 @@ public class GrapplingGun : MonoBehaviour
             {
                 if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistance || !hasMaxDistance)
                 {
+                    currentDistance = Vector2.Distance(_hit.point, firePoint.position);
                     grapplePoint = _hit.point;
                     grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
                     grappleRope.enabled = true;
