@@ -16,7 +16,7 @@ public class Thruster2 : MonoBehaviour
     GameObject particles;
     GameObject attachedTarget;
     AudioSource fireSource;
-    KeyCode activeKey;
+    [SerializeField] KeyCode activeKey;
 
     // Start is called before the first frame update
     void Start()
@@ -37,8 +37,8 @@ public class Thruster2 : MonoBehaviour
         //Animate Thrusters
         if (attached)
         {
-            if (attachedTarget.tag == "Player")
-            {
+            //if (attachedTarget.tag == "Player")
+            //{
                 if (Input.GetKey(activeKey))
                 {
                     fireSource.Play();
@@ -52,7 +52,7 @@ public class Thruster2 : MonoBehaviour
 
                 line.SetPosition(0, transform.position);
                 line.SetPosition(1, attachedTarget.transform.position);
-            }
+            //}
             /*
             else
             {

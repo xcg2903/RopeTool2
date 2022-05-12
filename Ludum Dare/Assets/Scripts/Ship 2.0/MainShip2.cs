@@ -9,7 +9,7 @@ public class MainShip2 : MonoBehaviour
     const float torque = 0.02f;
     const float thrustForce = 8.0f;
     const float moveSpeed = 0.05f;
-    [SerializeField] Vector2 thrust = new Vector2(0, 0);
+    [SerializeField] Vector2[] thrust = new Vector2[4];
 
     //Grapple Hook
     [SerializeField] GameObject grappleGun;
@@ -46,48 +46,40 @@ public class MainShip2 : MonoBehaviour
         //Lock Ship to Grapple Hook
         if(grappleRope.enabled)
         {
-            /*
-            if(grappleGun.transform.rotation.eulerAngles.z - rb.transform.rotation.eulerAngles.z > grappleAngle)
-            {
-                rb.AddTorque(0.1f);
-            }
-            if(grappleGun.transform.rotation.eulerAngles.z - rb.transform.rotation.eulerAngles.z < grappleAngle)
-            {
-                rb.AddTorque(-0.1f);
-            }*/
-
-            //rb.transform.localRotation.eulerAngles.z.Equals(Mathf.LerpAngle(rb.transform.localRotation.eulerAngles.z, grappleAngle, Time.deltaTime * 100));
-
             grappleAngleDelta = grappleGun.transform.eulerAngles.z - grappleAngleLast;
-            rb.rotation += grappleAngleDelta;
+            rb.rotation += grappleAngleDelta * 1.5f;
             grappleAngleLast = grappleGun.transform.eulerAngles.z;
         }
 
 
         if (Input.GetKey(KeyCode.W))
         {
-            rb.AddForce(transform.up * thrustForce * thrust.y);
+            rb.AddForce(rb.transform.up * thrustForce * thrust[0].y);
+            rb.AddForce(rb.transform.right * thrustForce * thrust[0].x);
         }
         if (Input.GetKey(KeyCode.S))
         {
-            rb.AddForce(transform.up * thrustForce * -thrust.y);
+            rb.AddForce(rb.transform.up * thrustForce * thrust[1].y);
+            rb.AddForce(rb.transform.right * thrustForce * thrust[1].x);
             //fireSource.Play();
         }
-        if (!Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
-            rb.AddForce(transform.right * thrustForce * -thrust.x);
+            rb.AddForce(rb.transform.up * thrustForce * thrust[2].y);
+            rb.AddForce(rb.transform.right * thrustForce * thrust[2].x);
             //fireSource.Stop();
         }
-        if (!Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
-            rb.AddForce(transform.right * thrustForce * thrust.x);
+            rb.AddForce(rb.transform.up * thrustForce * thrust[3].y);
+            rb.AddForce(rb.transform.right * thrustForce * thrust[3].x);
             //fireSource.Stop();
         }
     }
 
-    public void AddNewThrust(Vector2 newThrust)
+    public void AddNewThrust(Vector2 newThrust, int side)
     {
-        thrust += newThrust;
+        thrust[side] = newThrust;
     }
 
     public void LockGrappleGun()
