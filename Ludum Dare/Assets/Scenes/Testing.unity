@@ -1713,26 +1713,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3882743756098011473, guid: a96759403224a1d4f972d1540b6d26fb, type: 3}
-      propertyPath: thrust.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3882743756098011473, guid: a96759403224a1d4f972d1540b6d26fb, type: 3}
-      propertyPath: thrust.Array.data[0].x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3882743756098011473, guid: a96759403224a1d4f972d1540b6d26fb, type: 3}
-      propertyPath: thrust.Array.data[0].y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3882743756098011473, guid: a96759403224a1d4f972d1540b6d26fb, type: 3}
-      propertyPath: thrust.Array.data[1].x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3882743756098011473, guid: a96759403224a1d4f972d1540b6d26fb, type: 3}
-      propertyPath: thrust.Array.data[1].y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3882743756098011474, guid: a96759403224a1d4f972d1540b6d26fb, type: 3}
       propertyPath: m_Name
       value: Ship 2.0
