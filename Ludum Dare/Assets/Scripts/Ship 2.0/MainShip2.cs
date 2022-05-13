@@ -90,7 +90,7 @@ public class MainShip2 : MonoBehaviour
 
     public void AddNewThrust(Vector2 newThrust, int side)
     {
-        thrust[side] = newThrust;
+        thrust[side] += newThrust;
     }
 
     public void LockGrappleGun()

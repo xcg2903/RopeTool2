@@ -124,24 +124,33 @@ public class Thruster2 : MonoBehaviour
 
     public void AssignSide(int side)
     {
+        //Assign Animation Activation Key
+        //Assign tag so more thrusters can be added
         switch(side)
         {
             //Front
             case 0:
                 activeKey = KeyCode.W;
+                gameObject.tag = "Front";
                 break;
             //Back
             case 1:
                 activeKey = KeyCode.S;
+                gameObject.tag = "Back";
                 break;
             //Right
             case 2:
                 activeKey = KeyCode.D;
+                gameObject.tag = "Right";
                 break;
             //Left
             case 3:
                 activeKey = KeyCode.A;
+                gameObject.tag = "Left";
                 break;
         }
+
+        //Make this thruster able to collect more thrusters
+        gameObject.AddComponent<MainShipCollisions>();
     }
 }
