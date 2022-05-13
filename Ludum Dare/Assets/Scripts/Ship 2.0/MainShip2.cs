@@ -16,7 +16,7 @@ public class MainShip2 : MonoBehaviour
     [SerializeField] GameObject grappleGun;
     [SerializeField] GrapplingRope grappleRope;
     float grappleAngle;
-    float grappleAngleLast;
+    float grappleAngleCurrent;
     float grappleAngleDelta;
 
     // Start is called before the first frame update
@@ -47,9 +47,14 @@ public class MainShip2 : MonoBehaviour
         //Lock Ship to Grapple Hook
         if(grappleRope.enabled)
         {
-            grappleAngleDelta = grappleGun.transform.eulerAngles.z - grappleAngleLast;
-            rb.rotation += grappleAngleDelta * 1.5f;
-            grappleAngleLast = grappleGun.transform.eulerAngles.z;
+            //The current difference between the grapple angle and the ship angle
+            grappleAngleCurrent = Mathf.DeltaAngle(grappleGun.transform.eulerAngles.z, rb.rotation);
+            
+            //Get the difference between the starting angle difference and the current angle difference
+            grappleAngleDelta = Mathf.DeltaAngle(grappleAngle, grappleAngleCurrent);
+
+            //Change rotation accordingly
+            rb.rotation -= grappleAngleDelta;
         }
 
 
@@ -90,9 +95,7 @@ public class MainShip2 : MonoBehaviour
 
     public void LockGrappleGun()
     {
-        //grappleAngle = Mathf.DeltaAngle(grappleGun.transform.eulerAngles.z, rb.transform.localRotation.eulerAngles.z);
-        //grappleAngle = Mathf.Repeat(grappleAngle + 180, 360) - 180;
-        //Debug.Log(grappleAngle);
-        grappleAngleLast = grappleGun.transform.eulerAngles.z;
+        //The angle that represents the difference between the grapple hook's rotation and the player's rotation
+        grappleAngle = Mathf.DeltaAngle(grappleGun.transform.eulerAngles.z, rb.rotation);
     }
 }
