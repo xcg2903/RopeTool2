@@ -5,7 +5,7 @@ using UnityEngine;
 public class Thruster2 : MonoBehaviour
 {
     Rigidbody2D rb;
-    const float thrustForce = 1.0f;
+    const float thrustForce = 2.0f;
 
     [SerializeField] public bool attached;
     [SerializeField] float forceDirection;

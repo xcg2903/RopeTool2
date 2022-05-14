@@ -1364,6 +1364,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rocket2 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3316177265835546946, guid: d4c1207ba9744b8418b929d7e8ef7f9f, type: 3}
+      propertyPath: m_ConnectedAnchor.x
+      value: 21.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 3316177265835546946, guid: d4c1207ba9744b8418b929d7e8ef7f9f, type: 3}
+      propertyPath: m_ConnectedAnchor.y
+      value: 8.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4c1207ba9744b8418b929d7e8ef7f9f, type: 3}
 --- !u!1 &1230674293
@@ -2087,11 +2095,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3316177265835546946, guid: d4c1207ba9744b8418b929d7e8ef7f9f, type: 3}
       propertyPath: m_ConnectedAnchor.x
-      value: -23.32
+      value: -15.25
       objectReference: {fileID: 0}
     - target: {fileID: 3316177265835546946, guid: d4c1207ba9744b8418b929d7e8ef7f9f, type: 3}
       propertyPath: m_ConnectedAnchor.y
-      value: 1.62
+      value: 16.64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4c1207ba9744b8418b929d7e8ef7f9f, type: 3}
