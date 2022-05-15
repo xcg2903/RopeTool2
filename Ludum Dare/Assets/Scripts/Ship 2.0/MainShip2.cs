@@ -31,6 +31,7 @@ public class MainShip2 : MonoBehaviour
     void Update()
     {
         //Rotation
+        /*
         if (Input.GetKey(KeyCode.E))
         {
             //gameObject.transform.Rotate(new Vector3(0, 0, -0.2f));
@@ -43,6 +44,7 @@ public class MainShip2 : MonoBehaviour
             rb.AddTorque(torque);
             rb.AddForce(new Vector2(-moveSpeed, 0));
         }
+        */
 
         //Lock Ship to Grapple Hook
         if(grappleRope.enabled)
@@ -57,7 +59,7 @@ public class MainShip2 : MonoBehaviour
             rb.rotation -= grappleAngleDelta;
         }
 
-
+        /*
         if (Input.GetKey(KeyCode.W))
         {
             rb.AddForce(rb.transform.up * thrustForce * thrust[0].y);
@@ -81,6 +83,7 @@ public class MainShip2 : MonoBehaviour
             rb.AddForce(rb.transform.right * thrustForce * thrust[3].x);
             //fireSource.Stop();
         }
+        */
 
         if(Input.GetKeyDown(KeyCode.R))
         {
@@ -88,10 +91,12 @@ public class MainShip2 : MonoBehaviour
         }
     }
 
+    /*
     public void AddNewThrust(Vector2 newThrust, int side)
     {
         thrust[side] += newThrust;
     }
+    */
 
     public void LockGrappleGun()
     {

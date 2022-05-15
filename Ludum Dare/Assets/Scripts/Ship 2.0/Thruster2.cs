@@ -5,7 +5,8 @@ using UnityEngine;
 public class Thruster2 : MonoBehaviour
 {
     Rigidbody2D rb;
-    const float thrustForce = 2.0f;
+    Rigidbody2D rbPlayer;
+    [SerializeField] float thrustForce = 2.0f;
 
     [SerializeField] public bool attached;
     [SerializeField] float forceDirection;
@@ -22,6 +23,7 @@ public class Thruster2 : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
+        rbPlayer = GameObject.FindObjectOfType<MainShip2>().GetComponent<Rigidbody2D>();
         player = FindObjectOfType<MainShip2>().gameObject;
         particles = GetComponentInChildren<ParticleSystem>().gameObject;
         particles.SetActive(false);
@@ -42,6 +44,8 @@ public class Thruster2 : MonoBehaviour
                 if (Input.GetKey(activeKey))
                 {
                     fireSource.Play();
+                    rb.AddForce(rb.transform.right * thrustForce);
+                    rbPlayer.AddTorque(rbPlayer.angularVelocity / -100);
                     particles.SetActive(true);
                 }
                 else
