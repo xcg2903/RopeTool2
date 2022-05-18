@@ -7,9 +7,6 @@ public class MainShip2 : MonoBehaviour
 {
     //Thrusters
     Rigidbody2D rb;
-    const float torque = 0.02f;
-    const float thrustForce = 4.0f;
-    const float moveSpeed = 0.05f;
     [SerializeField] Vector2[] thrust = new Vector2[4];
 
     //Grapple Hook
@@ -29,6 +26,14 @@ public class MainShip2 : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene("Testing");
+        }
+    }
+
+    void FixedUpdate()
     {
         //Rotation
         /*
@@ -84,11 +89,6 @@ public class MainShip2 : MonoBehaviour
             //fireSource.Stop();
         }
         */
-
-        if(Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene("Testing");
-        }
     }
 
     /*

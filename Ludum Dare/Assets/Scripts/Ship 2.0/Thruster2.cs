@@ -6,7 +6,7 @@ public class Thruster2 : MonoBehaviour
 {
     Rigidbody2D rb;
     Rigidbody2D rbPlayer;
-    [SerializeField] float thrustForce = 2.0f;
+    [SerializeField] float thrustForce = 4.0f;
 
     [SerializeField] public bool attached;
     [SerializeField] float forceDirection;
@@ -32,7 +32,7 @@ public class Thruster2 : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         forceDirection = Mathf.Deg2Rad * gameObject.transform.rotation.eulerAngles.z;
 
@@ -45,7 +45,7 @@ public class Thruster2 : MonoBehaviour
                 {
                     fireSource.Play();
                     rb.AddForce(rb.transform.right * thrustForce);
-                    rbPlayer.AddTorque(rbPlayer.angularVelocity / -100);
+                    rbPlayer.AddTorque(rbPlayer.angularVelocity / -75);
                     particles.SetActive(true);
                 }
                 else

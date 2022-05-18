@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7a9a0a11730f44ca64eb7f63f43875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thrustForce: 2
+  thrustForce: 4
   attached: 0
   forceDirection: 0
   activeKey: 0
