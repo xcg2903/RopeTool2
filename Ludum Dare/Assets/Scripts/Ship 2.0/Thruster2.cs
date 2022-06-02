@@ -6,7 +6,7 @@ public class Thruster2 : MonoBehaviour
 {
     Rigidbody2D rb;
     Rigidbody2D rbPlayer;
-    [SerializeField] float thrustForce = 4.0f;
+    [SerializeField] float thrustForce = 8.0f;
 
     [SerializeField] public bool attached;
     [SerializeField] float forceDirection;
@@ -45,7 +45,7 @@ public class Thruster2 : MonoBehaviour
                 {
                     fireSource.Play();
                     rb.AddForce(rb.transform.right * thrustForce);
-                    rbPlayer.AddTorque(rbPlayer.angularVelocity / -75);
+                    rbPlayer.AddTorque(rbPlayer.angularVelocity / -50);
                     particles.SetActive(true);
                 }
                 else
