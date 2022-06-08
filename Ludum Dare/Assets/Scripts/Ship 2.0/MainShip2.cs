@@ -7,7 +7,7 @@ public class MainShip2 : MonoBehaviour
 {
     //Thrusters
     Rigidbody2D rb;
-    [SerializeField] Vector2[] thrust = new Vector2[4];
+    [SerializeField] List<Thruster2>[] thrusterArray = new List<Thruster2>[4];
 
     //Grapple Hook
     [SerializeField] GameObject grappleGun;
@@ -16,12 +16,25 @@ public class MainShip2 : MonoBehaviour
     float grappleAngleCurrent;
     float grappleAngleDelta;
 
+    //Properties
+    public List<Thruster2>[] ThrusterArray
+    {
+        get { return thrusterArray; }
+        set { thrusterArray = value; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
         grappleGun = GameObject.Find("GrapplePivot");
         grappleRope = FindObjectOfType<GrapplingRope>();
+
+        //Thruster lists
+        thrusterArray[0] = new List<Thruster2>();
+        thrusterArray[1] = new List<Thruster2>();
+        thrusterArray[2] = new List<Thruster2>();
+        thrusterArray[3] = new List<Thruster2>();
     }
 
     // Update is called once per frame

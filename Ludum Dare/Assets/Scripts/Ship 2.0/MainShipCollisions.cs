@@ -24,7 +24,7 @@ public class MainShipCollisions : MonoBehaviour
         if (collision.gameObject.GetComponent<Thruster2>() && collision.collider.gameObject.tag != "Back")
         {
             hitThruster = collision.gameObject.GetComponent<Thruster2>();
-            if (!hitThruster.attached)
+            if (hitThruster.ThrustState == Thruster2.State.Loose)
             {
                 hitThruster.AttachRocket(gameObject.GetComponentInParent<Rigidbody2D>().gameObject);
 
