@@ -7,7 +7,7 @@ public class MainShip2 : MonoBehaviour
 {
     //Thrusters
     Rigidbody2D rb;
-    [SerializeField] List<Thruster2>[] thrusterArray = new List<Thruster2>[4];
+    [SerializeField] Stack<Thruster2>[] thrusterArray = new Stack<Thruster2>[4];
 
     //Grapple Hook
     [SerializeField] GameObject grappleGun;
@@ -17,7 +17,7 @@ public class MainShip2 : MonoBehaviour
     float grappleAngleDelta;
 
     //Properties
-    public List<Thruster2>[] ThrusterArray
+    public Stack<Thruster2>[] ThrusterArray
     {
         get { return thrusterArray; }
         set { thrusterArray = value; }
@@ -31,10 +31,10 @@ public class MainShip2 : MonoBehaviour
         grappleRope = FindObjectOfType<GrapplingRope>();
 
         //Thruster lists
-        thrusterArray[0] = new List<Thruster2>();
-        thrusterArray[1] = new List<Thruster2>();
-        thrusterArray[2] = new List<Thruster2>();
-        thrusterArray[3] = new List<Thruster2>();
+        thrusterArray[0] = new Stack<Thruster2>();
+        thrusterArray[1] = new Stack<Thruster2>();
+        thrusterArray[2] = new Stack<Thruster2>();
+        thrusterArray[3] = new Stack<Thruster2>();
     }
 
     // Update is called once per frame
@@ -48,21 +48,6 @@ public class MainShip2 : MonoBehaviour
 
     void FixedUpdate()
     {
-        //Rotation
-        /*
-        if (Input.GetKey(KeyCode.E))
-        {
-            //gameObject.transform.Rotate(new Vector3(0, 0, -0.2f));
-            rb.AddTorque(-torque);
-            rb.AddForce(new Vector2(moveSpeed, 0));
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            //gameObject.transform.Rotate(new Vector3(0, 0, 0.2f));
-            rb.AddTorque(torque);
-            rb.AddForce(new Vector2(-moveSpeed, 0));
-        }
-        */
 
         //Lock Ship to Grapple Hook
         if(grappleRope.enabled)

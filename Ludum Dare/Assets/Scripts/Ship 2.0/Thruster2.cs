@@ -7,8 +7,7 @@ public class Thruster2 : MonoBehaviour
     //Forces
     Rigidbody2D rb;
     Rigidbody2D rbPlayer;
-    [SerializeField] float thrustForce = 10.0f;
-    [SerializeField] float forceDirection;
+    float thrustForce = 7.0f;
     LineRenderer line;
 
     //State Machine
@@ -51,10 +50,31 @@ public class Thruster2 : MonoBehaviour
     }
 
     // Update is called once per frame
+    void Update()
+    {
+        if(Input.GetKey(activeKey) && Input.GetKeyDown(KeyCode.Space))
+        {
+            if(state == State.Attached)
+            {
+                //Check if the most recent addition to the list is this thruster
+                int count = player.ThrusterArray[shipSide].Count;
+                Debug.Log(player.ThrusterArray[shipSide].Peek());
+
+                if (player.ThrusterArray[shipSide].Peek() == this)
+                {
+                    //Shoot off
+                    shootDirection = rbPlayer.rotation;
+                    Destroy(gameObject.GetComponent<FixedJoint2D>());
+                    JointAdd();
+                    state = State.Fire;
+                    StartCoroutine(PopDetatched());
+                }
+            }
+        }
+    }
+
     void FixedUpdate()
     {
-        forceDirection = Mathf.Deg2Rad * gameObject.transform.rotation.eulerAngles.z;
-
         //Animate Thrusters
         switch(state)
         {
@@ -69,14 +89,6 @@ public class Thruster2 : MonoBehaviour
                     rb.AddForce(rb.transform.right * thrustForce);
                     rbPlayer.AddTorque(rbPlayer.angularVelocity / -20);
                     particles.SetActive(true);
-
-                    if(Input.GetKey(KeyCode.Space))
-                    {
-                        shootDirection = rbPlayer.rotation;
-                        Destroy(gameObject.GetComponent<FixedJoint2D>());
-                        JointAdd();
-                        state = State.Fire;
-                    }
                 }
                 else
                 {
@@ -137,6 +149,12 @@ public class Thruster2 : MonoBehaviour
         //newjoint.maxDistanceOnly = true;
     }
 
+    private IEnumerator PopDetatched()
+    {
+        yield return new WaitForSeconds(0.5f);
+        player.ThrusterArray[shipSide].Pop();
+    }
+
     public void AssignSide(int side)
     {
         shipSide = side;
@@ -149,25 +167,25 @@ public class Thruster2 : MonoBehaviour
             case 0:
                 activeKey = KeyCode.W;
                 gameObject.tag = "Front";
-                player.ThrusterArray[0].Add(this);
+                player.ThrusterArray[0].Push(this);
                 break;
             //Back
             case 1:
                 activeKey = KeyCode.S;
                 gameObject.tag = "Back";
-                player.ThrusterArray[1].Add(this);
+                player.ThrusterArray[1].Push(this);
                 break;
             //Right
             case 2:
                 activeKey = KeyCode.D;
                 gameObject.tag = "Right";
-                player.ThrusterArray[2].Add(this);
+                player.ThrusterArray[2].Push(this);
                 break;
             //Left
             case 3:
                 activeKey = KeyCode.A;
                 gameObject.tag = "Left";
-                player.ThrusterArray[3].Add(this);
+                player.ThrusterArray[3].Push(this);
                 break;
         }
 
