@@ -7,7 +7,7 @@ public class MainShip2 : MonoBehaviour
 {
     //Thrusters
     Rigidbody2D rb;
-    [SerializeField] Stack<Thruster2>[] thrusterArray = new Stack<Thruster2>[4];
+    [SerializeField] Stack<Thruster2>[] thrusterStack = new Stack<Thruster2>[4];
 
     //Grapple Hook
     [SerializeField] GameObject grappleGun;
@@ -17,10 +17,10 @@ public class MainShip2 : MonoBehaviour
     float grappleAngleDelta;
 
     //Properties
-    public Stack<Thruster2>[] ThrusterArray
+    public Stack<Thruster2>[] ThrusterStack
     {
-        get { return thrusterArray; }
-        set { thrusterArray = value; }
+        get { return thrusterStack; }
+        set { thrusterStack = value; }
     }
 
     // Start is called before the first frame update
@@ -31,10 +31,10 @@ public class MainShip2 : MonoBehaviour
         grappleRope = FindObjectOfType<GrapplingRope>();
 
         //Thruster lists
-        thrusterArray[0] = new Stack<Thruster2>();
-        thrusterArray[1] = new Stack<Thruster2>();
-        thrusterArray[2] = new Stack<Thruster2>();
-        thrusterArray[3] = new Stack<Thruster2>();
+        thrusterStack[0] = new Stack<Thruster2>();
+        thrusterStack[1] = new Stack<Thruster2>();
+        thrusterStack[2] = new Stack<Thruster2>();
+        thrusterStack[3] = new Stack<Thruster2>();
     }
 
     // Update is called once per frame

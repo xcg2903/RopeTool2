@@ -17,7 +17,7 @@ public class Thruster2 : MonoBehaviour
         Attached,
         Fire
     }
-    private State state = State.Loose;
+    [SerializeField] State state = State.Loose;
 
     //Visuals
     MainShip2 player;
@@ -46,6 +46,7 @@ public class Thruster2 : MonoBehaviour
         particles = GetComponentInChildren<ParticleSystem>().gameObject;
         particles.SetActive(false);
         line = gameObject.GetComponent<LineRenderer>();
+        line.enabled = true;
         fireSource = gameObject.GetComponent<AudioSource>();
     }
 
@@ -57,14 +58,15 @@ public class Thruster2 : MonoBehaviour
             if(state == State.Attached)
             {
                 //Check if the most recent addition to the list is this thruster
-                int count = player.ThrusterArray[shipSide].Count;
-                Debug.Log(player.ThrusterArray[shipSide].Peek());
+                int count = player.ThrusterStack[shipSide].Count;
+                Debug.Log(player.ThrusterStack[shipSide].Peek());
 
-                if (player.ThrusterArray[shipSide].Peek() == this)
+                if (player.ThrusterStack[shipSide].Peek() == this)
                 {
                     //Shoot off
                     shootDirection = rbPlayer.rotation;
                     Destroy(gameObject.GetComponent<FixedJoint2D>());
+                    line.enabled = false;
                     JointAdd();
                     state = State.Fire;
                     StartCoroutine(PopDetatched());
@@ -81,6 +83,7 @@ public class Thruster2 : MonoBehaviour
             case State.Loose:
                 line.SetPosition(0, Vector3.zero);
                 line.SetPosition(1, Vector3.zero);
+                particles.SetActive(false);
                 break;
             case State.Attached:
                 if (Input.GetKey(activeKey))
@@ -139,6 +142,16 @@ public class Thruster2 : MonoBehaviour
         StartCoroutine(JointAdd());
     }
 
+    private IEnumerator PopDetatched()
+    {
+        //Remove Thruster from Stack
+        yield return new WaitForSeconds(0.5f);
+        player.ThrusterStack[shipSide].Pop();
+        StartCoroutine(JointAdd());
+        StartCoroutine(ReturnToLoose());
+
+    }
+
     private IEnumerator JointAdd()
     {
         //Add a new joint shortly after the old one breaks
@@ -149,10 +162,12 @@ public class Thruster2 : MonoBehaviour
         //newjoint.maxDistanceOnly = true;
     }
 
-    private IEnumerator PopDetatched()
+    private IEnumerator ReturnToLoose()
     {
-        yield return new WaitForSeconds(0.5f);
-        player.ThrusterArray[shipSide].Pop();
+        //Change state so thruster can be picked up again
+        yield return new WaitForSeconds(5.0f);
+        state = State.Loose;
+        line.enabled = true;
     }
 
     public void AssignSide(int side)
@@ -167,25 +182,25 @@ public class Thruster2 : MonoBehaviour
             case 0:
                 activeKey = KeyCode.W;
                 gameObject.tag = "Front";
-                player.ThrusterArray[0].Push(this);
+                player.ThrusterStack[0].Push(this);
                 break;
             //Back
             case 1:
                 activeKey = KeyCode.S;
                 gameObject.tag = "Back";
-                player.ThrusterArray[1].Push(this);
+                player.ThrusterStack[1].Push(this);
                 break;
             //Right
             case 2:
                 activeKey = KeyCode.D;
                 gameObject.tag = "Right";
-                player.ThrusterArray[2].Push(this);
+                player.ThrusterStack[2].Push(this);
                 break;
             //Left
             case 3:
                 activeKey = KeyCode.A;
                 gameObject.tag = "Left";
-                player.ThrusterArray[3].Push(this);
+                player.ThrusterStack[3].Push(this);
                 break;
         }
 
