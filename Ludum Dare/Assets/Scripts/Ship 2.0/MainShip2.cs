@@ -48,7 +48,6 @@ public class MainShip2 : MonoBehaviour
 
     void FixedUpdate()
     {
-
         //Lock Ship to Grapple Hook
         if(grappleRope.enabled)
         {
@@ -61,33 +60,47 @@ public class MainShip2 : MonoBehaviour
             //Change rotation accordingly
             rb.rotation -= grappleAngleDelta;
         }
-
-        /*
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.AddForce(rb.transform.up * thrustForce * thrust[0].y);
-            rb.AddForce(rb.transform.right * thrustForce * thrust[0].x);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.AddForce(rb.transform.up * thrustForce * thrust[1].y);
-            rb.AddForce(rb.transform.right * thrustForce * thrust[1].x);
-            //fireSource.Play();
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.AddForce(rb.transform.up * thrustForce * thrust[2].y);
-            rb.AddForce(rb.transform.right * thrustForce * thrust[2].x);
-            //fireSource.Stop();
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.AddForce(rb.transform.up * thrustForce * thrust[3].y);
-            rb.AddForce(rb.transform.right * thrustForce * thrust[3].x);
-            //fireSource.Stop();
-        }
-        */
     }
+
+    public void LockGrappleGun()
+    {
+        //The angle that represents the difference between the grapple hook's rotation and the player's rotation
+        grappleAngle = Mathf.DeltaAngle(grappleGun.transform.eulerAngles.z, rb.rotation);
+    }
+
+    public void LooseRockets()
+    {
+        //Loop through all four stacks and pop all thrusters
+        for (int i = 0; i < 4; i++)
+        {
+            bool looping = true;
+            while (looping)
+            {
+                //Check if this side has no thrusters on it
+                if (thrusterStack[i].Count == 0)
+                {
+                    Debug.Log(i + "  " + thrusterStack[i].Count);
+                    looping = false;
+                    break;
+                }
+
+                //Remove thruster from ship
+                Thruster2 thruster = thrusterStack[i].Peek();
+                thruster.CallKnockOff();
+                thrusterStack[i].Pop();
+            }
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<TestEnemyBullet>())
+        {
+            LooseRockets();
+        }
+    }
+
+    //Old
 
     /*
     public void AddNewThrust(Vector2 newThrust, int side)
@@ -95,10 +108,4 @@ public class MainShip2 : MonoBehaviour
         thrust[side] += newThrust;
     }
     */
-
-    public void LockGrappleGun()
-    {
-        //The angle that represents the difference between the grapple hook's rotation and the player's rotation
-        grappleAngle = Mathf.DeltaAngle(grappleGun.transform.eulerAngles.z, rb.rotation);
-    }
 }

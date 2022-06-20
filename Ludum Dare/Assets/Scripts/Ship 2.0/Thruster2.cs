@@ -15,7 +15,8 @@ public class Thruster2 : MonoBehaviour
     {
         Loose,
         Attached,
-        Fire
+        Fire,
+        None
     }
     [SerializeField] State state = State.Loose;
 
@@ -64,14 +65,14 @@ public class Thruster2 : MonoBehaviour
                 if (player.ThrusterStack[shipSide].Peek() == this)
                 {
                     //Shoot off
-                    shootDirection = rbPlayer.rotation;
-                    Destroy(gameObject.GetComponent<FixedJoint2D>());
-                    line.enabled = false;
-                    JointAdd();
-                    state = State.Fire;
-                    StartCoroutine(PopDetatched());
+                    StartCoroutine(FireThruster());
                 }
             }
+        }
+
+        if(Input.GetKey(KeyCode.Y))
+        {
+            StartCoroutine(KnockedOff());
         }
     }
 
@@ -81,6 +82,7 @@ public class Thruster2 : MonoBehaviour
         switch(state)
         {
             case State.Loose:
+                //No rope visible
                 line.SetPosition(0, Vector3.zero);
                 line.SetPosition(1, Vector3.zero);
                 particles.SetActive(false);
@@ -88,6 +90,7 @@ public class Thruster2 : MonoBehaviour
             case State.Attached:
                 if (Input.GetKey(activeKey))
                 {
+                    //Add force in forward direction for this thruster
                     //fireSource.Play();
                     rb.AddForce(rb.transform.right * thrustForce);
                     rbPlayer.AddTorque(rbPlayer.angularVelocity / -20);
@@ -99,10 +102,12 @@ public class Thruster2 : MonoBehaviour
                     particles.SetActive(false);
                 }
 
+                //Attach line to center of attached target
                 line.SetPosition(0, transform.position);
                 line.SetPosition(1, attachedTarget.transform.position);
                 break;
             case State.Fire:
+                //Shoot off in the direction the ship is facing
                 rb.rotation = Mathf.LerpAngle(rb.rotation, shootDirection, 10.0f * Time.deltaTime);
                 rb.AddForce(rb.transform.right * thrustForce);
                 break;
@@ -135,21 +140,56 @@ public class Thruster2 : MonoBehaviour
         }
     }
 
+    /*
     private void OnJointBreak2D(Joint2D joint)
     {
         state = State.Loose;
         particles.SetActive(false);
         StartCoroutine(JointAdd());
     }
+    */
 
-    private IEnumerator PopDetatched()
+    private IEnumerator FireThruster()
     {
+        //Shoot off
+        shootDirection = rbPlayer.rotation;
+        Destroy(gameObject.GetComponent<FixedJoint2D>());
+        line.enabled = false;
+        state = State.Fire;
+
         //Remove Thruster from Stack
         yield return new WaitForSeconds(0.5f);
         player.ThrusterStack[shipSide].Pop();
         StartCoroutine(JointAdd());
-        StartCoroutine(ReturnToLoose());
 
+        //Return to Loose State
+        yield return new WaitForSeconds(5.0f);
+        state = State.Loose;
+        line.enabled = true;
+    }
+
+
+    public void CallKnockOff()
+    {
+        //Call KnockedOff from another script
+        StartCoroutine(KnockedOff());
+    }
+    private IEnumerator KnockedOff()
+    {
+        //Knock off
+        Vector3 playerPos = player.gameObject.transform.position;
+        float directx = transform.position.x - playerPos.x;
+        float directy = transform.position.y - playerPos.y;
+        rb.AddForce(new Vector2(directx, directy) * 20.0f);
+        Destroy(gameObject.GetComponent<FixedJoint2D>());
+        line.enabled = false;
+        state = State.None;
+
+        //Remove Thruster from Stack, Return to Loose State
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(JointAdd());
+        state = State.Loose;
+        line.enabled = true;
     }
 
     private IEnumerator JointAdd()
@@ -160,14 +200,6 @@ public class Thruster2 : MonoBehaviour
         FixedJoint2D newjoint = gameObject.GetComponent<FixedJoint2D>();
         newjoint.enableCollision = true;
         //newjoint.maxDistanceOnly = true;
-    }
-
-    private IEnumerator ReturnToLoose()
-    {
-        //Change state so thruster can be picked up again
-        yield return new WaitForSeconds(5.0f);
-        state = State.Loose;
-        line.enabled = true;
     }
 
     public void AssignSide(int side)
@@ -206,5 +238,13 @@ public class Thruster2 : MonoBehaviour
 
         //Make this thruster able to collect more thrusters
         gameObject.AddComponent<MainShipCollisions>();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.GetComponent<TestEnemyBullet>())
+        {
+            player.LooseRockets();
+        }
     }
 }
