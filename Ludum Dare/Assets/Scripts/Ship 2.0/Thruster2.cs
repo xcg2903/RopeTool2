@@ -108,7 +108,7 @@ public class Thruster2 : MonoBehaviour
                 break;
             case State.Fire:
                 //Shoot off in the direction the ship is facing
-                rb.rotation = Mathf.LerpAngle(rb.rotation, shootDirection, 10.0f * Time.deltaTime);
+                //rb.rotation = Mathf.LerpAngle(rb.rotation, shootDirection, 10.0f * Time.deltaTime);
                 rb.AddForce(rb.transform.right * thrustForce);
                 break;
         }
@@ -160,7 +160,7 @@ public class Thruster2 : MonoBehaviour
         //Remove Thruster from Stack
         yield return new WaitForSeconds(0.5f);
         player.ThrusterStack[shipSide].Pop();
-        StartCoroutine(JointAdd());
+        //StartCoroutine(JointAdd());
 
         //Return to Loose State
         yield return new WaitForSeconds(5.0f);
@@ -180,14 +180,14 @@ public class Thruster2 : MonoBehaviour
         Vector3 playerPos = player.gameObject.transform.position;
         float directx = transform.position.x - playerPos.x;
         float directy = transform.position.y - playerPos.y;
-        rb.AddForce(new Vector2(directx, directy) * 20.0f);
+        rb.AddForce(new Vector2(directx, directy) * 30.0f);
         Destroy(gameObject.GetComponent<FixedJoint2D>());
         line.enabled = false;
         state = State.None;
 
         //Remove Thruster from Stack, Return to Loose State
         yield return new WaitForSeconds(0.5f);
-        StartCoroutine(JointAdd());
+        //StartCoroutine(JointAdd());
         state = State.Loose;
         line.enabled = true;
     }
@@ -245,6 +245,7 @@ public class Thruster2 : MonoBehaviour
         if(collision.gameObject.GetComponent<TestEnemyBullet>())
         {
             player.LooseRockets();
+            Destroy(collision.gameObject, 0.5f);
         }
     }
 }

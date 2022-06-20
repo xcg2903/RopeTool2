@@ -97,6 +97,7 @@ public class MainShip2 : MonoBehaviour
         if (collision.gameObject.GetComponent<TestEnemyBullet>())
         {
             LooseRockets();
+            Destroy(collision.gameObject, 0.5f);
         }
     }
 
