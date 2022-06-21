@@ -291,7 +291,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1604135944}
   - component: {fileID: 1604135945}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerShip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -872,6 +872,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grappleGun: {fileID: 0}
   grappleRope: {fileID: 0}
+  sprite: {fileID: 1604135945}
+  state: 0
 --- !u!232 &4767035069084836532
 DistanceJoint2D:
   m_ObjectHideFlags: 0
@@ -1388,7 +1390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7218987529461125415}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ShipContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2305,7 +2307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1353072459332714653}
   - component: {fileID: 2462319124599715863}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SpriteBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}

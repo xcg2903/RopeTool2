@@ -16,11 +16,27 @@ public class MainShip2 : MonoBehaviour
     float grappleAngleCurrent;
     float grappleAngleDelta;
 
+    //Visuals
+    [SerializeField] SpriteRenderer sprite;
+
+    //State Machine
+    public enum State
+    {
+        Normal,
+        Hurt
+    }
+    [SerializeField] State state = State.Normal;
+
     //Properties
     public Stack<Thruster2>[] ThrusterStack
     {
         get { return thrusterStack; }
         set { thrusterStack = value; }
+    }
+    public State PlayerState
+    {
+        get { return state; }
+        set { state = value; }
     }
 
     // Start is called before the first frame update
@@ -43,6 +59,8 @@ public class MainShip2 : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene("Testing");
+            Physics2D.IgnoreLayerCollision(8, 10, false); //Fix bug where sometimes collisions are shut off (for now)
+            //NOTE: Bug seems to coorespond with "stack empty" error
         }
     }
 
@@ -68,41 +86,59 @@ public class MainShip2 : MonoBehaviour
         grappleAngle = Mathf.DeltaAngle(grappleGun.transform.eulerAngles.z, rb.rotation);
     }
 
-    public void LooseRockets()
+    public void LooseThrusters()
     {
-        //Loop through all four stacks and pop all thrusters
-        for (int i = 0; i < 4; i++)
+        if (state == State.Normal)
         {
-            bool looping = true;
-            while (looping)
-            {
-                //Check if this side has no thrusters on it
-                if (thrusterStack[i].Count == 0)
-                {
-                    Debug.Log(i + "  " + thrusterStack[i].Count);
-                    looping = false;
-                    break;
-                }
+            //Turn player into hurt state
+            state = State.Hurt;
+            sprite.color = new Color(1f, 1f, 1f, .5f); //Transparency
+            StartCoroutine(Recover());
 
-                //Remove thruster from ship
-                Thruster2 thruster = thrusterStack[i].Peek();
-                thruster.CallKnockOff();
-                thrusterStack[i].Pop();
+            //Loop through all four stacks and pop all thrusters
+            for (int i = 0; i < 4; i++)
+            {
+                bool looping = true;
+                while (looping)
+                {
+                    //Check if this side has no thrusters on it
+                    if (thrusterStack[i].Count == 0)
+                    {
+                        looping = false;
+                        break;
+                    }
+
+                    //Remove thruster from ship
+                    Thruster2 thruster = thrusterStack[i].Peek();
+                    thruster.CallKnockOff();
+                    thrusterStack[i].Pop();
+                }
             }
         }
+        else
+        {
+            Debug.Log("DEFENSE!");
+        }
+    }
+
+    private IEnumerator Recover()
+    {
+        //Return to normal state after a second
+        yield return new WaitForSeconds(1.0f);
+        state = State.Normal;
+        sprite.color = new Color(1f, 1f, 1f, 1f); //Color is normal
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<TestEnemyBullet>())
         {
-            LooseRockets();
+            LooseThrusters();
             Destroy(collision.gameObject, 0.5f);
         }
     }
 
     //Old
-
     /*
     public void AddNewThrust(Vector2 newThrust, int side)
     {

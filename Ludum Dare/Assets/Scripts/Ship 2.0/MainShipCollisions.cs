@@ -36,7 +36,7 @@ public class MainShipCollisions : MonoBehaviour
                 }
 
                 //Attach Fixed Joint
-                hitThruster.AttachRocket(gameObject.GetComponentInParent<Rigidbody2D>().gameObject);
+                hitThruster.AttachThruster(gameObject.GetComponentInParent<Rigidbody2D>().gameObject);
 
                 if (gameObject.tag == "Front")
                 {

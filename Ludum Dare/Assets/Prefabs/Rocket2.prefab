@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 185875662464875124}
   - component: {fileID: 185875662464875125}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 2679285690559074099}
   - component: {fileID: 3316177265835546946}
   - component: {fileID: 4577202016358386899}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Rocket2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -422,7 +422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6709417154921379092}
   - component: {fileID: 3342561733310027750}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MainSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 4877929980446917656}
   - component: {fileID: 4877929980446917658}
   - component: {fileID: 4877929980446917659}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: TLeft
   m_TagString: Left
   m_Icon: {fileID: 0}
@@ -567,7 +567,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4877929980897913475}
   - component: {fileID: 4877929980897913474}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: TBack
   m_TagString: Back
   m_Icon: {fileID: 0}
@@ -616,7 +616,7 @@ GameObject:
   - component: {fileID: 4877929981891397816}
   - component: {fileID: 4877929981891397818}
   - component: {fileID: 4877929981891397819}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: TRight
   m_TagString: Right
   m_Icon: {fileID: 0}
@@ -677,7 +677,7 @@ GameObject:
   - component: {fileID: 4877929982301722630}
   - component: {fileID: 4877929982301722624}
   - component: {fileID: 4877929982301722625}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: TFront
   m_TagString: Front
   m_Icon: {fileID: 0}
@@ -738,7 +738,7 @@ GameObject:
   - component: {fileID: 7023290525425646816}
   - component: {fileID: 7262919892370784500}
   - component: {fileID: 3454266566576158145}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: JetParticles
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -60,7 +60,6 @@ public class Thruster2 : MonoBehaviour
             {
                 //Check if the most recent addition to the list is this thruster
                 int count = player.ThrusterStack[shipSide].Count;
-                Debug.Log(player.ThrusterStack[shipSide].Peek());
 
                 if (player.ThrusterStack[shipSide].Peek() == this)
                 {
@@ -109,12 +108,12 @@ public class Thruster2 : MonoBehaviour
             case State.Fire:
                 //Shoot off in the direction the ship is facing
                 //rb.rotation = Mathf.LerpAngle(rb.rotation, shootDirection, 10.0f * Time.deltaTime);
-                rb.AddForce(rb.transform.right * thrustForce);
+                rb.AddForce(rb.transform.right * thrustForce * 1.0f);
                 break;
         }
     }
 
-    public void AttachRocket(GameObject collision)
+    public void AttachThruster(GameObject collision)
     {
         if (state == State.Loose)
         {
@@ -140,27 +139,21 @@ public class Thruster2 : MonoBehaviour
         }
     }
 
-    /*
-    private void OnJointBreak2D(Joint2D joint)
-    {
-        state = State.Loose;
-        particles.SetActive(false);
-        StartCoroutine(JointAdd());
-    }
-    */
-
     private IEnumerator FireThruster()
     {
-        //Shoot off
+        //SHOOT OFF
         shootDirection = rbPlayer.rotation;
+
+        //Remove tether
         Destroy(gameObject.GetComponent<FixedJoint2D>());
         line.enabled = false;
         state = State.Fire;
+        Physics2D.IgnoreLayerCollision(8, 10, true); //Prevent Ship from colliding with thruster while firing
 
         //Remove Thruster from Stack
         yield return new WaitForSeconds(0.5f);
         player.ThrusterStack[shipSide].Pop();
-        //StartCoroutine(JointAdd());
+        Physics2D.IgnoreLayerCollision(8, 10, false); //Return collision between ship and thruster
 
         //Return to Loose State
         yield return new WaitForSeconds(5.0f);
@@ -176,30 +169,23 @@ public class Thruster2 : MonoBehaviour
     }
     private IEnumerator KnockedOff()
     {
-        //Knock off
+        //KNOCK OFF
+
+        //Apply force in opposite direction of player
         Vector3 playerPos = player.gameObject.transform.position;
         float directx = transform.position.x - playerPos.x;
         float directy = transform.position.y - playerPos.y;
         rb.AddForce(new Vector2(directx, directy) * 30.0f);
+
+        //Remove tether
         Destroy(gameObject.GetComponent<FixedJoint2D>());
         line.enabled = false;
         state = State.None;
 
         //Remove Thruster from Stack, Return to Loose State
         yield return new WaitForSeconds(0.5f);
-        //StartCoroutine(JointAdd());
         state = State.Loose;
         line.enabled = true;
-    }
-
-    private IEnumerator JointAdd()
-    {
-        //Add a new joint shortly after the old one breaks
-        yield return new WaitForSeconds(0.5f);
-        gameObject.AddComponent<FixedJoint2D>();
-        FixedJoint2D newjoint = gameObject.GetComponent<FixedJoint2D>();
-        newjoint.enableCollision = true;
-        //newjoint.maxDistanceOnly = true;
     }
 
     public void AssignSide(int side)
@@ -244,8 +230,21 @@ public class Thruster2 : MonoBehaviour
     {
         if(collision.gameObject.GetComponent<TestEnemyBullet>())
         {
-            player.LooseRockets();
+            player.LooseThrusters();
             Destroy(collision.gameObject, 0.5f);
         }
     }
+
+    //OLD
+    /*
+    private IEnumerator JointAdd()
+    {
+        //Add a new joint shortly after the old one breaks
+        yield return new WaitForSeconds(0.5f);
+        gameObject.AddComponent<FixedJoint2D>();
+        FixedJoint2D newjoint = gameObject.GetComponent<FixedJoint2D>();
+        newjoint.enableCollision = true;
+        //newjoint.maxDistanceOnly = true;
+    }
+    */
 }
