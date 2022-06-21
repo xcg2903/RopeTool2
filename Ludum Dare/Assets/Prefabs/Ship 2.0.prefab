@@ -873,6 +873,7 @@ MonoBehaviour:
   grappleGun: {fileID: 0}
   grappleRope: {fileID: 0}
   sprite: {fileID: 1604135945}
+  sparks: {fileID: 18435535233867814, guid: 82ff85576156fa04bb4d70a4e0d46417, type: 3}
   state: 0
 --- !u!232 &4767035069084836532
 DistanceJoint2D:

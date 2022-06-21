@@ -26,6 +26,7 @@ public class Thruster2 : MonoBehaviour
     GameObject attachedTarget;
     AudioSource fireSource;
     [SerializeField] KeyCode activeKey;
+    [SerializeField] GameObject sparks;
 
     //Fire Thruster
     int shipSide;
@@ -226,12 +227,31 @@ public class Thruster2 : MonoBehaviour
         gameObject.AddComponent<MainShipCollisions>();
     }
 
+    public void SpawnSparks(Vector2 hitPoint)
+    {
+        //Rotate Towards towards player
+        Vector2 playerPos = player.transform.position;
+        float targetx = playerPos.x - hitPoint.x;
+        float targety = playerPos.y - hitPoint.y;
+
+        float angle = Mathf.Atan2(targety, targetx) * Mathf.Rad2Deg;
+
+        Instantiate(sparks, hitPoint, Quaternion.Euler(new Vector3(0, 0, angle)));
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.GetComponent<TestEnemyBullet>())
         {
             player.LooseThrusters();
             Destroy(collision.gameObject, 0.5f);
+        }
+
+        if (!collision.gameObject.GetComponentInParent<MainShip2>()) //Generate thrusts except for when hitting player
+        {
+            ContactPoint2D point = collision.GetContact(0);
+            Vector2 pos = new Vector2(point.point.x, point.point.y);
+            SpawnSparks(pos);
         }
     }
 

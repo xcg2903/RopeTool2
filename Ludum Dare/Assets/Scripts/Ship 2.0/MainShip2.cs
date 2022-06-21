@@ -18,6 +18,7 @@ public class MainShip2 : MonoBehaviour
 
     //Visuals
     [SerializeField] SpriteRenderer sprite;
+    [SerializeField] GameObject sparks;
 
     //State Machine
     public enum State
@@ -115,10 +116,6 @@ public class MainShip2 : MonoBehaviour
                 }
             }
         }
-        else
-        {
-            Debug.Log("DEFENSE!");
-        }
     }
 
     private IEnumerator Recover()
@@ -129,12 +126,31 @@ public class MainShip2 : MonoBehaviour
         sprite.color = new Color(1f, 1f, 1f, 1f); //Color is normal
     }
 
+    public void SpawnSparks(Vector2 hitPoint)
+    {
+        //Rotate Towards towards player
+        Vector2 playerPos = transform.position;
+        float targetx = playerPos.x - hitPoint.x;
+        float targety = playerPos.y - hitPoint.y;
+
+        float angle = Mathf.Atan2(targety, targetx) * Mathf.Rad2Deg;
+
+        Instantiate(sparks, hitPoint, Quaternion.Euler(new Vector3(0, 0, angle)));
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.GetComponent<TestEnemyBullet>())
         {
             LooseThrusters();
             Destroy(collision.gameObject, 0.5f);
+        }
+
+        if (!collision.gameObject.GetComponentInParent<Thruster2>()) //Generate thrusts except for when hitting rockets
+        {
+            ContactPoint2D point = collision.GetContact(0);
+            Vector2 pos = new Vector2(point.point.x, point.point.y);
+            SpawnSparks(pos);
         }
     }
 
