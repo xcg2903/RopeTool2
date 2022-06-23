@@ -815,7 +815,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 0.5
   m_LinearDrag: 0
-  m_AngularDrag: 2
+  m_AngularDrag: 0.5
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -1656,7 +1656,6 @@ MonoBehaviour:
   maxDistance: 20
   launchToPoint: 1
   launchType: 1
-  launchSpeed: 0.1
   currentDistance: 0
   autoConfigureDistance: 1
   targetDistance: 3

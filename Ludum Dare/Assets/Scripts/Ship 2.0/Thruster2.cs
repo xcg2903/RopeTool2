@@ -7,7 +7,8 @@ public class Thruster2 : MonoBehaviour
     //Forces
     Rigidbody2D rb;
     Rigidbody2D rbPlayer;
-    float thrustForce = 7.0f;
+    float thrustForce = 8.0f;
+    float angularAdjuster = 10.0f; //The number you divide the angular velocity by when offsetting torque
     LineRenderer line;
 
     //State Machine
@@ -93,7 +94,7 @@ public class Thruster2 : MonoBehaviour
                     //Add force in forward direction for this thruster
                     //fireSource.Play();
                     rb.AddForce(rb.transform.right * thrustForce);
-                    rbPlayer.AddTorque(rbPlayer.angularVelocity / -20);
+                    rbPlayer.AddTorque(rbPlayer.angularVelocity / -angularAdjuster);
                     particles.SetActive(true);
                 }
                 else
@@ -149,11 +150,11 @@ public class Thruster2 : MonoBehaviour
         Destroy(gameObject.GetComponent<FixedJoint2D>());
         line.enabled = false;
         state = State.Fire;
+        player.ThrusterStack[shipSide].Pop();
         Physics2D.IgnoreLayerCollision(8, 10, true); //Prevent Ship from colliding with thruster while firing
 
         //Remove Thruster from Stack
         yield return new WaitForSeconds(0.5f);
-        player.ThrusterStack[shipSide].Pop();
         Physics2D.IgnoreLayerCollision(8, 10, false); //Return collision between ship and thruster
 
         //Return to Loose State
