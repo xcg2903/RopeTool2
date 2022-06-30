@@ -56,6 +56,7 @@ public class Thruster2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Get Keyboard Input
         if(Input.GetKey(activeKey) && Input.GetKeyDown(KeyCode.Space))
         {
             if(state == State.Attached)
@@ -70,23 +71,34 @@ public class Thruster2 : MonoBehaviour
                 }
             }
         }
-
         if(Input.GetKey(KeyCode.Y))
         {
             StartCoroutine(KnockedOff());
+        }
+
+        //Draw Rope
+        switch(state)
+        {
+            case State.Loose:
+                //No rope visible
+                //line.SetPosition(0, Vector3.zero);
+                //line.SetPosition(1, Vector3.zero);
+                //particles.SetActive(false);
+                break;
+            case State.Attached:
+                //Attach line to center of attached target
+                line.SetPosition(0, transform.position);
+                line.SetPosition(1, attachedTarget.transform.position);
+                break;
         }
     }
 
     void FixedUpdate()
     {
-        //Animate Thrusters
+        //Thruster Forces
         switch(state)
         {
             case State.Loose:
-                //No rope visible
-                line.SetPosition(0, Vector3.zero);
-                line.SetPosition(1, Vector3.zero);
-                particles.SetActive(false);
                 break;
             case State.Attached:
                 if (Input.GetKey(activeKey))
@@ -102,10 +114,6 @@ public class Thruster2 : MonoBehaviour
                     //fireSource.Stop();
                     particles.SetActive(false);
                 }
-
-                //Attach line to center of attached target
-                line.SetPosition(0, transform.position);
-                line.SetPosition(1, attachedTarget.transform.position);
                 break;
             case State.Fire:
                 //Shoot off in the direction the ship is facing
@@ -148,6 +156,8 @@ public class Thruster2 : MonoBehaviour
 
         //Remove tether
         Destroy(gameObject.GetComponent<FixedJoint2D>());
+        line.SetPosition(0, Vector3.zero);
+        line.SetPosition(1, Vector3.zero);
         line.enabled = false;
         state = State.Fire;
         player.ThrusterStack[shipSide].Pop();
@@ -160,6 +170,7 @@ public class Thruster2 : MonoBehaviour
         //Return to Loose State
         yield return new WaitForSeconds(5.0f);
         state = State.Loose;
+        particles.SetActive(false);
         line.enabled = true;
     }
 
@@ -181,7 +192,10 @@ public class Thruster2 : MonoBehaviour
 
         //Remove tether
         Destroy(gameObject.GetComponent<FixedJoint2D>());
+        line.SetPosition(0, Vector3.zero);
+        line.SetPosition(1, Vector3.zero);
         line.enabled = false;
+        particles.SetActive(false);
         state = State.None;
 
         //Remove Thruster from Stack, Return to Loose State
