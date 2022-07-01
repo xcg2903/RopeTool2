@@ -32,10 +32,12 @@ public class TestEnemy : MonoBehaviour
 
             float angle = Mathf.Atan2(targety, targetx) * Mathf.Rad2Deg;
 
+            yield return new WaitForSeconds(0.5f);
+
             Instantiate(bullet, transform.position, Quaternion.Euler(new Vector3(0, 0, angle)));
         }
         //Call Function Again after 5s
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(2.0f);
         StartCoroutine(Shoot());
     }
 

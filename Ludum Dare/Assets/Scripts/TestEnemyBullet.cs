@@ -13,6 +13,6 @@ public class TestEnemyBullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += transform.right * Time.deltaTime * 5.0f;
+        transform.position += transform.right * Time.deltaTime * 20.0f;
     }
 }
