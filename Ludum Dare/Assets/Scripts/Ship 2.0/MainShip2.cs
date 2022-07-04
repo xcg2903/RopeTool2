@@ -7,7 +7,7 @@ public class MainShip2 : MonoBehaviour
 {
     //Thrusters
     Rigidbody2D rb;
-    [SerializeField] Stack<Thruster2>[] thrusterStack = new Stack<Thruster2>[4];
+    [SerializeField] Stack<Part>[] partStack = new Stack<Part>[4];
 
     //Grapple Hook
     [SerializeField] GameObject grappleGun;
@@ -29,10 +29,10 @@ public class MainShip2 : MonoBehaviour
     [SerializeField] State state = State.Normal;
 
     //Properties
-    public Stack<Thruster2>[] ThrusterStack
+    public Stack<Part>[] PartStack
     {
-        get { return thrusterStack; }
-        set { thrusterStack = value; }
+        get { return partStack; }
+        set { partStack = value; }
     }
     public State PlayerState
     {
@@ -47,11 +47,11 @@ public class MainShip2 : MonoBehaviour
         grappleGun = GameObject.Find("GrapplePivot");
         grappleRope = FindObjectOfType<GrapplingRope>();
 
-        //Thruster lists
-        thrusterStack[0] = new Stack<Thruster2>();
-        thrusterStack[1] = new Stack<Thruster2>();
-        thrusterStack[2] = new Stack<Thruster2>();
-        thrusterStack[3] = new Stack<Thruster2>();
+        //Ship part lists
+        partStack[0] = new Stack<Part>();
+        partStack[1] = new Stack<Part>();
+        partStack[2] = new Stack<Part>();
+        partStack[3] = new Stack<Part>();
     }
 
     // Update is called once per frame
@@ -103,16 +103,16 @@ public class MainShip2 : MonoBehaviour
                 while (looping)
                 {
                     //Check if this side has no thrusters on it
-                    if (thrusterStack[i].Count == 0)
+                    if (partStack[i].Count == 0)
                     {
                         looping = false;
                         break;
                     }
 
                     //Remove thruster from ship
-                    Thruster2 thruster = thrusterStack[i].Peek();
-                    thruster.CallKnockOff();
-                    thrusterStack[i].Pop();
+                    Part part = partStack[i].Peek();
+                    part.CallKnockOff();
+                    partStack[i].Pop();
                 }
             }
         }

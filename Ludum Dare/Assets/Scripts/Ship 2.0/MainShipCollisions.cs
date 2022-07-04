@@ -5,7 +5,7 @@ using UnityEngine;
 public class MainShipCollisions : MonoBehaviour
 {
     MainShip2 playerShip;
-    Thruster2 hitThruster;
+    Part hitPart;
 
     // Start is called before the first frame update
     void Start()
@@ -21,52 +21,42 @@ public class MainShipCollisions : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<Thruster2>() && collision.collider.gameObject.tag != "Back")
+        if (collision.gameObject.GetComponent<Part>() && collision.collider.gameObject.tag != "Back")
         {
-            hitThruster = collision.gameObject.GetComponent<Thruster2>();
-            if (hitThruster.ThrustState == Thruster2.State.Loose)
+            hitPart = collision.gameObject.GetComponent<Part>();
+            if (hitPart.ThrustState == Part.State.Loose)
             {
 
                 //Add Fixed Joint
-                if (!hitThruster.gameObject.GetComponent<FixedJoint2D>())
+                if (!hitPart.gameObject.GetComponent<FixedJoint2D>())
                 {
-                    hitThruster.gameObject.AddComponent<FixedJoint2D>();
-                    FixedJoint2D newjoint = hitThruster.gameObject.GetComponent<FixedJoint2D>();
+                    hitPart.gameObject.AddComponent<FixedJoint2D>();
+                    FixedJoint2D newjoint = hitPart.gameObject.GetComponent<FixedJoint2D>();
                     newjoint.enableCollision = true;
                 }
 
                 //Attach Fixed Joint
-                hitThruster.AttachThruster(gameObject.GetComponentInParent<Rigidbody2D>().gameObject);
+                hitPart.AttachPart(gameObject.GetComponentInParent<Rigidbody2D>().gameObject);
 
                 if (gameObject.tag == "Front")
                 {
-                    /*
-                    if (collision.collider.gameObject.tag == "Front")
-                    {
-                        hitThruster.AssignSide(0);
-                    }
-                    if (collision.collider.gameObject.tag == "Right")
-                    {
-                        hitThruster.AssignSide(0);
-                    }
-                    if (collision.collider.gameObject.tag == "Left")
-                    {
-                        hitThruster.AssignSide(0);
-                    }     
-                    */
-                    hitThruster.AssignSide(0);
+                    hitPart.AssignSide(0);
+                    playerShip.PartStack[0].Push(hitPart);
                 }
                 if (gameObject.tag == "Back")
                 {
-                    hitThruster.AssignSide(1);
+                    hitPart.AssignSide(1);
+                    playerShip.PartStack[1].Push(hitPart);
                 }
                 if (gameObject.tag == "Right")
                 {
-                    hitThruster.AssignSide(2);
+                    hitPart.AssignSide(2);
+                    playerShip.PartStack[2].Push(hitPart);
                 }
                 if (gameObject.tag == "Left")
                 {
-                    hitThruster.AssignSide(3);
+                    hitPart.AssignSide(3);
+                    playerShip.PartStack[3].Push(hitPart);
                 }
             }
         }

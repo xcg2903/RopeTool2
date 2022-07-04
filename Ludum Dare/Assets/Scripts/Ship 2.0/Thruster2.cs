@@ -2,95 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Thruster2 : MonoBehaviour
+public class Thruster2 : Part
 {
     //Forces
-    Rigidbody2D rb;
-    Rigidbody2D rbPlayer;
     float thrustForce = 8.0f;
     float angularAdjuster = 10.0f; //The number you divide the angular velocity by when offsetting torque
-    LineRenderer line;
-
-    //State Machine
-    public enum State
-    {
-        Loose,
-        Attached,
-        Fire,
-        None
-    }
-    [SerializeField] State state = State.Loose;
 
     //Visuals
-    MainShip2 player;
     GameObject particles;
-    GameObject attachedTarget;
     AudioSource fireSource;
-    [SerializeField] KeyCode activeKey;
-    [SerializeField] GameObject sparks;
 
-    //Fire Thruster
-    int shipSide;
-    float shootDirection;
-
-    //Properties
-    public State ThrustState
-    {
-        get { return state; }
-        set { state = value; }
-    }
 
     // Start is called before the first frame update
-    void Start()
+    public override void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody2D>();
-        rbPlayer = FindObjectOfType<MainShip2>().GetComponent<Rigidbody2D>();
-        player = FindObjectOfType<MainShip2>();
+        base.Start();
+
         particles = GetComponentInChildren<ParticleSystem>().gameObject;
         particles.SetActive(false);
-        line = gameObject.GetComponent<LineRenderer>();
-        line.enabled = true;
         fireSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
-    void Update()
+    public override void Update()
     {
-        //Get Keyboard Input
-        if(Input.GetKey(activeKey) && Input.GetKeyDown(KeyCode.Space))
-        {
-            if(state == State.Attached)
-            {
-                //Check if the most recent addition to the list is this thruster
-                int count = player.ThrusterStack[shipSide].Count;
-
-                if (player.ThrusterStack[shipSide].Peek() == this)
-                {
-                    //Shoot off
-                    StartCoroutine(FireThruster());
-                }
-            }
-        }
-        if(Input.GetKey(KeyCode.Y))
-        {
-            StartCoroutine(KnockedOff());
-        }
-
-        //Draw Rope
-        switch(state)
-        {
-            case State.Loose:
-                //No rope visible
-                //line.SetPosition(0, Vector3.zero);
-                //line.SetPosition(1, Vector3.zero);
-                //particles.SetActive(false);
-                break;
-            case State.Attached:
-                //Attach line to center of attached target
-                line.SetPosition(0, transform.position);
-                line.SetPosition(1, attachedTarget.transform.position);
-                break;
-        }
+        base.Update();
     }
 
     void FixedUpdate()
@@ -123,44 +59,15 @@ public class Thruster2 : MonoBehaviour
         }
     }
 
-    public void AttachThruster(GameObject collision)
+    public override IEnumerator LaunchPart()
     {
-        if (state == State.Loose)
-        {
-            FixedJoint2D joint = gameObject.GetComponent<FixedJoint2D>();
-            joint.connectedBody = collision.GetComponent<Rigidbody2D>();
-
-            //TRIG STUFF
-            float myRadius = gameObject.GetComponent<CircleCollider2D>().radius;
-            float shipRadius = collision.GetComponent<CircleCollider2D>().radius;
-
-            //This code takes both circle colliders of the two colliding objects and attaches the joint at the point of collision
-            float jointAngle = Mathf.Atan2(collision.transform.position.y - gameObject.transform.position.y, collision.transform.position.x - gameObject.transform.position.x);
-            float jointAngleShip = Mathf.Atan2(gameObject.transform.position.y - collision.transform.position.y, gameObject.transform.position.x - collision.transform.position.x);
-            float myContactAngle = gameObject.transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
-            float shipContactAngle = collision.transform.rotation.eulerAngles.z * Mathf.Deg2Rad;
-            //Debug.Log(shipContactAngle);
-
-            joint.anchor = new Vector2(Mathf.Cos(jointAngle - myContactAngle) * myRadius, Mathf.Sin(jointAngle - myContactAngle) * myRadius);
-            joint.connectedAnchor = new Vector2(Mathf.Cos(jointAngleShip - shipContactAngle) * shipRadius, Mathf.Sin(jointAngleShip - shipContactAngle) * shipRadius);
-
-            attachedTarget = collision;
-            state = State.Attached;
-        }
-    }
-
-    private IEnumerator FireThruster()
-    {
-        //SHOOT OFF
-        shootDirection = rbPlayer.rotation;
-
         //Remove tether
         Destroy(gameObject.GetComponent<FixedJoint2D>());
         line.SetPosition(0, Vector3.zero);
         line.SetPosition(1, Vector3.zero);
         line.enabled = false;
         state = State.Fire;
-        player.ThrusterStack[shipSide].Pop();
+        player.PartStack[shipSide].Pop();
         Physics2D.IgnoreLayerCollision(8, 10, true); //Prevent Ship from colliding with thruster while firing
 
         //Remove Thruster from Stack
@@ -173,113 +80,4 @@ public class Thruster2 : MonoBehaviour
         particles.SetActive(false);
         line.enabled = true;
     }
-
-
-    public void CallKnockOff()
-    {
-        //Call KnockedOff from another script
-        StartCoroutine(KnockedOff());
-    }
-    private IEnumerator KnockedOff()
-    {
-        //KNOCK OFF
-
-        //Apply force in opposite direction of player
-        Vector3 playerPos = player.gameObject.transform.position;
-        float directx = transform.position.x - playerPos.x;
-        float directy = transform.position.y - playerPos.y;
-        rb.AddForce(new Vector2(directx, directy) * 30.0f);
-
-        //Remove tether
-        Destroy(gameObject.GetComponent<FixedJoint2D>());
-        line.SetPosition(0, Vector3.zero);
-        line.SetPosition(1, Vector3.zero);
-        line.enabled = false;
-        particles.SetActive(false);
-        state = State.None;
-
-        //Remove Thruster from Stack, Return to Loose State
-        yield return new WaitForSeconds(0.5f);
-        state = State.Loose;
-        line.enabled = true;
-    }
-
-    public void AssignSide(int side)
-    {
-        shipSide = side;
-
-        //Assign Animation Activation Key
-        //Assign tag so more thrusters can be added
-        switch(side)
-        {
-            //Front
-            case 0:
-                activeKey = KeyCode.W;
-                gameObject.tag = "Front";
-                player.ThrusterStack[0].Push(this);
-                break;
-            //Back
-            case 1:
-                activeKey = KeyCode.S;
-                gameObject.tag = "Back";
-                player.ThrusterStack[1].Push(this);
-                break;
-            //Right
-            case 2:
-                activeKey = KeyCode.D;
-                gameObject.tag = "Right";
-                player.ThrusterStack[2].Push(this);
-                break;
-            //Left
-            case 3:
-                activeKey = KeyCode.A;
-                gameObject.tag = "Left";
-                player.ThrusterStack[3].Push(this);
-                break;
-        }
-
-        //Make this thruster able to collect more thrusters
-        gameObject.AddComponent<MainShipCollisions>();
-    }
-
-    public void SpawnSparks(Vector2 hitPoint)
-    {
-        //Rotate Towards towards player
-        Vector2 playerPos = player.transform.position;
-        float targetx = playerPos.x - hitPoint.x;
-        float targety = playerPos.y - hitPoint.y;
-
-        float angle = Mathf.Atan2(targety, targetx) * Mathf.Rad2Deg;
-
-        Instantiate(sparks, hitPoint, Quaternion.Euler(new Vector3(0, 0, angle)));
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.GetComponent<TestEnemyBullet>())
-        {
-            player.LooseThrusters();
-            Destroy(collision.gameObject, 0.5f);
-        }
-
-        if (!collision.gameObject.GetComponentInParent<MainShip2>()) //Generate thrusts except for when hitting player
-        {
-            ContactPoint2D point = collision.GetContact(0);
-            Vector2 pos = new Vector2(point.point.x, point.point.y);
-            SpawnSparks(pos);
-        }
-    }
-
-    //OLD
-    /*
-    private IEnumerator JointAdd()
-    {
-        //Add a new joint shortly after the old one breaks
-        yield return new WaitForSeconds(0.5f);
-        gameObject.AddComponent<FixedJoint2D>();
-        FixedJoint2D newjoint = gameObject.GetComponent<FixedJoint2D>();
-        newjoint.enableCollision = true;
-        //newjoint.maxDistanceOnly = true;
-    }
-    */
 }
