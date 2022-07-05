@@ -59,7 +59,7 @@ public class Thruster2 : Part
         }
     }
 
-    public override IEnumerator LaunchPart()
+    protected override IEnumerator LaunchPart()
     {
         //Remove tether
         Destroy(gameObject.GetComponent<FixedJoint2D>());
@@ -67,9 +67,9 @@ public class Thruster2 : Part
         line.SetPosition(1, Vector3.zero);
         line.enabled = false;
         state = State.Fire;
-        player.PartStack[shipSide].Pop();
+        player.PartStack[shipSide].Pop(); //Remove from stack
         Physics2D.IgnoreLayerCollision(8, 10, true); //Prevent Ship from colliding with thruster while firing
-        gameObject.tag = "PlayerAttack";
+        gameObject.tag = "PlayerAttack"; //Set hitboxes to damage
 
         //Remove Thruster from Stack
         yield return new WaitForSeconds(0.5f);
@@ -78,8 +78,15 @@ public class Thruster2 : Part
         //Return to Loose State
         yield return new WaitForSeconds(5.0f);
         state = State.Loose;
-        gameObject.tag = "Untagged";
+        gameObject.tag = "Untagged"; //Set hitboxes to normal
         particles.SetActive(false);
         line.enabled = true;
+    }
+
+    protected override IEnumerator KnockedOff()
+    {
+        StartCoroutine(base.KnockedOff());
+        yield return new WaitForSeconds(0.5f);
+        particles.SetActive(false);
     }
 }

@@ -128,7 +128,7 @@ public class Part : MonoBehaviour
         }
     }
 
-    public virtual IEnumerator LaunchPart()
+    protected virtual IEnumerator LaunchPart()
     {
         //FIRE OFF PART BEHAVIOR
         //OVERRIDE THIS
@@ -142,7 +142,7 @@ public class Part : MonoBehaviour
         //Call KnockedOff from another script
         StartCoroutine(KnockedOff());
     }
-    private IEnumerator KnockedOff()
+    protected virtual IEnumerator KnockedOff()
     {
         //KNOCK OFF
 

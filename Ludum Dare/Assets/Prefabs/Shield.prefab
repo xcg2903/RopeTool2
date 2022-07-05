@@ -241,9 +241,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5076146987769351633}
   - component: {fileID: 5076146987769351638}
-  - component: {fileID: 5076146987769351632}
+  - component: {fileID: 1657215237}
   m_Layer: 0
-  m_Name: ShieldAnimated_0
+  m_Name: ShieldSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -258,7 +258,7 @@ Transform:
   m_GameObject: {fileID: 5076146987769351639}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.020562194, y: 0.057568073, z: 0}
-  m_LocalScale: {x: 4.644103, y: 3.7007709, z: 1.3877887}
+  m_LocalScale: {x: 4.644103, y: 3.7007709, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7205092614765644179}
@@ -316,22 +316,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!111 &5076146987769351632
-Animation:
+--- !u!95 &1657215237
+Animator:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5076146987769351639}
   m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 0}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 303ac23cd0799804ea342f118442c00e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7205092614765644172
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,3 +569,4 @@ MonoBehaviour:
   state: 0
   activeKey: 0
   sparks: {fileID: 18435535233867814, guid: 82ff85576156fa04bb4d70a4e0d46417, type: 3}
+  hitbox: {fileID: 5076146986815781250}
