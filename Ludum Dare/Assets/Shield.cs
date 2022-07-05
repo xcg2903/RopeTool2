@@ -2,25 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Thruster2 : Part
+public class Shield : Part
 {
+    // Start is called before the first frame update
     //Forces
     float thrustForce = 8.0f;
     float angularAdjuster = 10.0f; //The number you divide the angular velocity by when offsetting torque
 
-    //Visuals
-    GameObject particles;
-    AudioSource fireSource;
-
-
-    // Start is called before the first frame update
     public override void Start()
     {
         base.Start();
-
-        particles = GetComponentInChildren<ParticleSystem>().gameObject;
-        particles.SetActive(false);
-        fireSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -32,23 +23,18 @@ public class Thruster2 : Part
     void FixedUpdate()
     {
         //Thruster Forces
-        switch(state)
+        switch (state)
         {
             case State.Loose:
                 break;
             case State.Attached:
                 if (Input.GetKey(activeKey))
                 {
-                    //Add force in forward direction for this thruster
-                    //fireSource.Play();
-                    rb.AddForce(rb.transform.right * thrustForce);
-                    rbPlayer.AddTorque(rbPlayer.angularVelocity / -angularAdjuster);
-                    particles.SetActive(true);
+
                 }
                 else
                 {
-                    //fireSource.Stop();
-                    particles.SetActive(false);
+
                 }
                 break;
             case State.Fire:
@@ -69,7 +55,6 @@ public class Thruster2 : Part
         state = State.Fire;
         player.PartStack[shipSide].Pop();
         Physics2D.IgnoreLayerCollision(8, 10, true); //Prevent Ship from colliding with thruster while firing
-        gameObject.tag = "PlayerAttack";
 
         //Remove Thruster from Stack
         yield return new WaitForSeconds(0.5f);
@@ -78,8 +63,6 @@ public class Thruster2 : Part
         //Return to Loose State
         yield return new WaitForSeconds(5.0f);
         state = State.Loose;
-        gameObject.tag = "Untagged";
-        particles.SetActive(false);
         line.enabled = true;
     }
 }

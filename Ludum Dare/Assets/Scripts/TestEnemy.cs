@@ -43,6 +43,12 @@ public class TestEnemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (collision.GetContact(0).collider.gameObject.tag == "PlayerAttack")
+        {
+            GotHit();
+        }
+
+        /*
         if (collision.gameObject.GetComponentInParent<Thruster2>())
         {
             //If thruster is firing
@@ -51,6 +57,7 @@ public class TestEnemy : MonoBehaviour
                 GotHit();
             }
         }
+        */
     }
 
     private void GotHit()

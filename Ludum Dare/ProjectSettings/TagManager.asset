@@ -9,6 +9,8 @@ TagManager:
   - Left
   - Right
   - Back
+  - PlayerAttack
+  - EnemyAttack
   layers:
   - Default
   - TransparentFX

@@ -395,7 +395,7 @@ FixedJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.62, y: -1.27}
+  m_ConnectedAnchor: {x: -0.43, y: -24.36}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &4577202016358386899
@@ -410,6 +410,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7a9a0a11730f44ca64eb7f63f43875, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  rbPlayer: {fileID: 0}
+  line: {fileID: 0}
   state: 0
   activeKey: 0
   sparks: {fileID: 18435535233867814, guid: 82ff85576156fa04bb4d70a4e0d46417, type: 3}

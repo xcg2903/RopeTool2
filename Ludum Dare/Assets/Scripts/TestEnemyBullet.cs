@@ -15,4 +15,13 @@ public class TestEnemyBullet : MonoBehaviour
     {
         transform.position += transform.right * Time.deltaTime * 20.0f;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Debug.Log(collision.gameObject.tag);
+        if (collision.GetContact(0).collider.gameObject.tag == "PlayerAttack")
+        {
+            Destroy(gameObject);
+        }
+    }
 }

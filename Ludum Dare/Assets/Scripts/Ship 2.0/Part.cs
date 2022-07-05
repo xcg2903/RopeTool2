@@ -169,8 +169,6 @@ public class Part : MonoBehaviour
     {
         shipSide = side;
 
-        Debug.Log(this);
-
         //Assign Animation Activation Key
         //Assign tag so more thrusters can be added
         switch (side)
