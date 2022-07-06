@@ -8,7 +8,7 @@ public class Thruster2 : Part
     float thrustForce = 12.0f;
     float angularAdjuster = 10.0f; //The number you divide the angular velocity by when offsetting torque
     float velocityCurve;
-    Vector3 currentForce;
+    Vector2 currentForce;
 
     //Visuals
     GameObject particles;
@@ -80,15 +80,28 @@ public class Thruster2 : Part
         line.SetPosition(0, Vector3.zero);
         line.SetPosition(1, Vector3.zero);
         line.enabled = false;
+
+        //Launch Rocket
         state = State.Fire;
         player.PartStack[shipSide].Pop(); //Remove from stack
+        Destroy(gameObject.GetComponent<MainShipCollisions>()); //Delete Part Stacking
         Physics2D.IgnoreLayerCollision(8, 10, true); //Prevent Ship from colliding with thruster while firing
+        Physics2D.IgnoreLayerCollision(10, 10, true); //Prevent thrusters from colliding with themselves while firing
         gameObject.tag = "PlayerAttack"; //Set hitboxes to damage
-        rb.AddForce(rb.transform.right * rb.velocity.magnitude * 2); //BIG LAUNCH
+        Vector2 launchForce = rb.transform.right * rb.velocity.magnitude * 2;
+        if(launchForce.magnitude < 32)
+        {
+            rb.AddForce(rb.transform.right * 32); //Launch with force of 32
+        }
+        else
+        {
+            rb.AddForce(rb.transform.right * rb.velocity.magnitude * 2); //Velocity based Launch
+        }
 
-        //Remove Thruster from Stack
+        //Return collisions to normal
         yield return new WaitForSeconds(0.5f);
         Physics2D.IgnoreLayerCollision(8, 10, false); //Return collision between ship and thruster
+        Physics2D.IgnoreLayerCollision(10, 10, false); //Return collision between thruster and thruster
 
         //Return to Loose State
         yield return new WaitForSeconds(5.0f);

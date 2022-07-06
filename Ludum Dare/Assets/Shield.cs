@@ -41,9 +41,6 @@ public class Shield : Part
                 }
                 break;
             case State.Fire:
-                //Shoot off in the direction the ship is facing
-                //rb.rotation = Mathf.LerpAngle(rb.rotation, shootDirection, 10.0f * Time.deltaTime);
-                rb.AddForce(rb.transform.right * thrustForce * 1.0f);
                 break;
         }
     }
@@ -58,9 +55,6 @@ public class Shield : Part
             case State.Attached:
                 break;
             case State.Fire:
-                //Shoot off in the direction the ship is facing
-                //rb.rotation = Mathf.LerpAngle(rb.rotation, shootDirection, 10.0f * Time.deltaTime);
-                rb.AddForce(rb.transform.right * thrustForce * 1.0f);
                 break;
         }
     }
@@ -72,15 +66,29 @@ public class Shield : Part
         line.SetPosition(0, Vector3.zero);
         line.SetPosition(1, Vector3.zero);
         line.enabled = false;
+
+        //Launch Shield
         state = State.Fire; 
         player.PartStack[shipSide].Pop(); //Remove from stack
+        Destroy(gameObject.GetComponent<MainShipCollisions>()); //Delete Part Stacking
         Physics2D.IgnoreLayerCollision(8, 10, true); //Prevent Ship from colliding with thruster while firing
+        Physics2D.IgnoreLayerCollision(10, 10, true); //Prevent thrusters from colliding with themselves while firing
         animator.SetBool("active", true); //Animate active
         hitbox.SetActive(true); //Attack hitbox active
+        Vector2 launchForce = rb.transform.right * rb.velocity.magnitude * 2;
+        if (launchForce.magnitude < 24)
+        {
+            rb.AddForce(-rb.transform.right * 24); //Launch with force of 24
+        }
+        else
+        {
+            rb.AddForce(-rb.transform.right * rb.velocity.magnitude * 2); //Velocity based Launch
+        }
 
         //Remove Thruster from Stack
         yield return new WaitForSeconds(0.5f);
         Physics2D.IgnoreLayerCollision(8, 10, false); //Return collision between ship and thruster
+        Physics2D.IgnoreLayerCollision(10, 10, false); //Return collision between thruster and thruster
 
         //Return to Loose State
         yield return new WaitForSeconds(5.0f);
