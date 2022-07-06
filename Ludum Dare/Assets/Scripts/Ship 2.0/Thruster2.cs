@@ -5,8 +5,10 @@ using UnityEngine;
 public class Thruster2 : Part
 {
     //Forces
-    float thrustForce = 8.0f;
+    float thrustForce = 12.0f;
     float angularAdjuster = 10.0f; //The number you divide the angular velocity by when offsetting torque
+    float velocityCurve;
+    Vector3 currentForce;
 
     //Visuals
     GameObject particles;
@@ -41,8 +43,20 @@ public class Thruster2 : Part
                 {
                     //Add force in forward direction for this thruster
                     //fireSource.Play();
-                    rb.AddForce(rb.transform.right * thrustForce);
+
+                    velocityCurve = (thrustForce) / rb.velocity.magnitude;
+                    currentForce = rb.transform.right * thrustForce * velocityCurve;
+                    
+                    if(currentForce.magnitude > 32) //Ensure a force added to the ship is never greater than 32
+                    {
+                        rb.AddForce(rb.transform.right * 32);
+                    }
+                    else
+                    {
+                        rb.AddForce(rb.transform.right * thrustForce * velocityCurve);
+                    }
                     rbPlayer.AddTorque(rbPlayer.angularVelocity / -angularAdjuster);
+
                     particles.SetActive(true);
                 }
                 else
@@ -53,8 +67,8 @@ public class Thruster2 : Part
                 break;
             case State.Fire:
                 //Shoot off in the direction the ship is facing
-                //rb.rotation = Mathf.LerpAngle(rb.rotation, shootDirection, 10.0f * Time.deltaTime);
-                rb.AddForce(rb.transform.right * thrustForce * 1.0f);
+                //velocityCurve = (thrustForce * 2) / Mathf.Pow(rb.velocity.magnitude, 2);
+                rb.AddForce(rb.transform.right * (thrustForce / 4));
                 break;
         }
     }
@@ -70,6 +84,7 @@ public class Thruster2 : Part
         player.PartStack[shipSide].Pop(); //Remove from stack
         Physics2D.IgnoreLayerCollision(8, 10, true); //Prevent Ship from colliding with thruster while firing
         gameObject.tag = "PlayerAttack"; //Set hitboxes to damage
+        rb.AddForce(rb.transform.right * rb.velocity.magnitude * 2); //BIG LAUNCH
 
         //Remove Thruster from Stack
         yield return new WaitForSeconds(0.5f);
