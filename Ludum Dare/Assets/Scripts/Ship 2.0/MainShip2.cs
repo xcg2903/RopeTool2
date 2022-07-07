@@ -59,7 +59,7 @@ public class MainShip2 : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene("Testing");
+            SceneManager.LoadScene("TestLevel");
             Physics2D.IgnoreLayerCollision(8, 10, false); //Fix bug where sometimes collisions are shut off (for now)
             //NOTE: Bug seems to coorespond with "stack empty" error
         }

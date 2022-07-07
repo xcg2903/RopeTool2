@@ -55,6 +55,11 @@ public class GrapplingGun : MonoBehaviour
     //NEW STUFF
     [SerializeField] MainShip2 playerShip;
 
+    //Moving Target
+    GameObject grappleObj;
+    Vector2 grappleObjStartPos;
+    Vector2 grapplePointStart;
+
     private void Start()
     {
         grappleRope.enabled = false;
@@ -118,6 +123,19 @@ public class GrapplingGun : MonoBehaviour
             Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
             RotateGun(mousePos, true);
         }
+
+        //Grappled to a moving target
+        if(grappleRope.enabled)
+        {
+            if((Vector2)grappleObj.transform.position != grappleObjStartPos)
+            {
+                //Object is moving
+                grapplePoint = grapplePointStart; //Reset grapple point for calculations
+                Vector2 movingObjOffset = (Vector2)grappleObj.transform.position - grappleObjStartPos;
+                grapplePoint += movingObjOffset; //Move the grapplepoint
+                m_springJoint2D.connectedAnchor = grapplePoint; //Move connected anchor on spring
+            }
+        }
     }
 
     void RotateGun(Vector3 lookPoint, bool allowRotationOverTime)
@@ -151,6 +169,11 @@ public class GrapplingGun : MonoBehaviour
                     currentDistance = Vector2.Distance(_hit.point, firePoint.position);
                     grapplePoint = _hit.point;
                     grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
+
+                    grappleObj = _hit.collider.gameObject; //Get object
+                    grappleObjStartPos = grappleObj.transform.position; //Get it's starting position
+                    grapplePointStart = grapplePoint;
+
                     grappleRope.enabled = true;
                 }
             }

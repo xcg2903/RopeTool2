@@ -144,7 +144,6 @@ public class Part : MonoBehaviour
     }
     protected virtual IEnumerator KnockedOff()
     {
-        //KNOCK OFF
 
         //Apply force in opposite direction of player
         Vector3 playerPos = player.gameObject.transform.position;
