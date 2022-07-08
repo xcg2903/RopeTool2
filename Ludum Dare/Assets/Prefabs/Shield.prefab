@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5652471497414637821}
   - component: {fileID: 2539080537648675290}
   m_Layer: 10
-  m_Name: Barrier
-  m_TagString: Untagged
+  m_Name: Lightning
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,8 +45,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.6, y: 1.87}
+  m_Offset: {x: 0.02, y: 0}
+  m_Size: {x: 0.51, y: 1.68}
   m_Direction: 0
 --- !u!1 &2510789881334726344
 GameObject:
@@ -242,8 +242,8 @@ GameObject:
   - component: {fileID: 5076146986815781261}
   - component: {fileID: 5076146986815781260}
   m_Layer: 10
-  m_Name: Lightning
-  m_TagString: PlayerAttack
+  m_Name: Barrier
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -276,8 +276,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.9, y: 2.11}
+  m_Offset: {x: 0.12, y: 0}
+  m_Size: {x: 0.72, y: 2.11}
   m_Direction: 0
 --- !u!1 &5076146987769351639
 GameObject:
@@ -397,7 +397,6 @@ GameObject:
   - component: {fileID: 7205092614765644175}
   - component: {fileID: 6839984435570669057}
   - component: {fileID: 5723108407386744549}
-  - component: {fileID: 5723108408354612115}
   - component: {fileID: 7205092614765644169}
   m_Layer: 10
   m_Name: Shield
@@ -582,24 +581,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!255 &5723108408354612115
-FixedJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7205092614765644172}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 11.01, y: -21.37}
-  m_DampingRatio: 0
-  m_Frequency: 0
 --- !u!114 &7205092614765644169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,4 +599,5 @@ MonoBehaviour:
   state: 0
   activeKey: 0
   sparks: {fileID: 18435535233867814, guid: 82ff85576156fa04bb4d70a4e0d46417, type: 3}
-  hitbox: {fileID: 5076146986815781250}
+  barrier: {fileID: 5076146986815781250}
+  lightning: {fileID: 787856940620573517}

@@ -9,7 +9,8 @@ public class Shield : Part
     float angularAdjuster = 10.0f; //The number you divide the angular velocity by when offsetting torque
 
     //Lightning
-    [SerializeField] GameObject hitbox;
+    [SerializeField] GameObject barrier; //Barrier preventing player from attaching the electric side of the shield to their ship when inactive
+    [SerializeField] GameObject lightning; //Damage Hitbox
     Animator animator;
 
     // Start is called before the first frame update
@@ -17,6 +18,8 @@ public class Shield : Part
     {
         base.Start();
         animator = GetComponentInChildren<Animator>();
+
+        lightning.SetActive(false);
     }
 
     // Update is called once per frame
@@ -32,12 +35,14 @@ public class Shield : Part
                 if (Input.GetKey(activeKey))
                 {
                     animator.SetBool("active", true);
-                    hitbox.SetActive(true);
+                    lightning.SetActive(true);
+                    barrier.SetActive(false);
                 }
                 else
                 {
                     animator.SetBool("active", false);
-                    hitbox.SetActive(false);
+                    lightning.SetActive(false);
+                    barrier.SetActive(true);
                 }
                 break;
             case State.Fire:
@@ -74,7 +79,8 @@ public class Shield : Part
         Physics2D.IgnoreLayerCollision(8, 10, true); //Prevent Ship from colliding with thruster while firing
         Physics2D.IgnoreLayerCollision(10, 10, true); //Prevent thrusters from colliding with themselves while firing
         animator.SetBool("active", true); //Animate active
-        hitbox.SetActive(true); //Attack hitbox active
+        lightning.SetActive(true); //Turn on hitbox
+        barrier.SetActive(false); //Turn off box covering attack hitbox
         Vector2 launchForce = rb.transform.right * rb.velocity.magnitude * 2;
         if (launchForce.magnitude < 24)
         {
@@ -95,7 +101,8 @@ public class Shield : Part
         state = State.Loose;
         line.enabled = true;
         animator.SetBool("active", false); //Animate deactive
-        hitbox.SetActive(false); //Attack hitbox deactive
+        lightning.SetActive(false); //Turn off hitbox
+        barrier.SetActive(true); //Turn on box covering attack hitbox
     }
 
     protected override IEnumerator KnockedOff()
@@ -103,6 +110,7 @@ public class Shield : Part
         StartCoroutine(base.KnockedOff());
         yield return new WaitForSeconds(0.5f);
         animator.SetBool("active", false);
-        hitbox.SetActive(false);
+        lightning.SetActive(false);
+        barrier.SetActive(true);
     }
 }

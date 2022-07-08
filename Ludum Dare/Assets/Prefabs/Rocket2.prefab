@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 4577202016358386896}
   - component: {fileID: 3316177265125694516}
   - component: {fileID: 2679285690559074099}
-  - component: {fileID: 3316177265835546946}
   - component: {fileID: 4577202016358386899}
   m_Layer: 10
   m_Name: Rocket2
@@ -380,24 +379,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!255 &3316177265835546946
-FixedJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 185875662869377885}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 1
-  m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -1.05, y: -1.23}
-  m_DampingRatio: 0
-  m_Frequency: 0
 --- !u!114 &4577202016358386899
 MonoBehaviour:
   m_ObjectHideFlags: 0

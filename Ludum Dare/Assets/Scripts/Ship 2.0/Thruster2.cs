@@ -70,13 +70,13 @@ public class Thruster2 : Part
 
                 //Find the closest enemy
                 Flyer closestEnemy = null;
-                for(int i = 1; i < enemyManager.Flyers.Length; i++)
+                for(int i = 0; i < enemyManager.Flyers.Length; i++)
                 {
                     if (enemyManager.Flyers[i] != null)
                     {
                         if (closestEnemy == null)
                         {
-                            enemyManager.Flyers[i] = closestEnemy;
+                            closestEnemy = enemyManager.Flyers[i];
                         }
                         else
                         {
@@ -89,16 +89,18 @@ public class Thruster2 : Part
                         }
                     }
                 }
+                Debug.Log(closestEnemy.name);
 
                 //If rocket is close enough
-                if(closestEnemy != null)
+                if (closestEnemy != null)
                 {
                     if(Vector2.Distance(closestEnemy.transform.position, transform.position) < 10)
                     {
+
                         Vector2 direction = closestEnemy.transform.position - transform.position;
                         direction.Normalize();
                         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                        transform.localEulerAngles = new Vector3(0f, 0f, Mathf.LerpAngle(transform.localEulerAngles.z, angle, Time.deltaTime * 10));     
+                        transform.localEulerAngles = new Vector3(0f, 0f, Mathf.LerpAngle(transform.localEulerAngles.z, angle, Time.deltaTime * 3));     
                     }
                 }
                 //rb.AddForce(rb.transform.right * thrustForce);
