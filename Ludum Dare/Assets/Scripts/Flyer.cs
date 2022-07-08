@@ -33,11 +33,11 @@ public class Flyer : MonoBehaviour
     void Update()
     {
         //Switch State
-        if(state == State.Roaming && Vector2.Distance(gameObject.transform.position, player.transform.position) < 30)
+        if(state == State.Roaming && Vector2.Distance(transform.position, player.transform.position) < 30)
         {
             state = State.Attacking;
         }
-        if (state == State.Attacking && Vector2.Distance(gameObject.transform.position, player.transform.position) > 50)
+        if (state == State.Attacking && Vector2.Distance(transform.position, player.transform.position) > 50)
         {
             state = State.Roaming;
         }
@@ -92,7 +92,7 @@ public class Flyer : MonoBehaviour
 
     void Shoot()
     {
-        Instantiate(bullet, transform.position, Quaternion.Euler(new Vector3(0, 0, rb.rotation)));
+        //Instantiate(bullet, transform.position, Quaternion.Euler(new Vector3(0, 0, rb.rotation)));
         shootTimer = 3.0f;
     }
 
