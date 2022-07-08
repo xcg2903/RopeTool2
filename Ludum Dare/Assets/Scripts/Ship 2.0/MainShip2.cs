@@ -47,11 +47,11 @@ public class MainShip2 : MonoBehaviour
         grappleGun = GameObject.Find("GrapplePivot");
         grappleRope = FindObjectOfType<GrapplingRope>();
 
-        //Ship part lists
-        partStack[0] = new Stack<Part>();
-        partStack[1] = new Stack<Part>();
-        partStack[2] = new Stack<Part>();
-        partStack[3] = new Stack<Part>();
+        //Ship part stacks
+        partStack[0] = new Stack<Part>(); //Front Side
+        partStack[1] = new Stack<Part>(); //Back Side
+        partStack[2] = new Stack<Part>(); //Right Side
+        partStack[3] = new Stack<Part>(); //Left Side
     }
 
     // Update is called once per frame
@@ -62,6 +62,43 @@ public class MainShip2 : MonoBehaviour
             SceneManager.LoadScene("TestLevel");
             Physics2D.IgnoreLayerCollision(8, 10, false); //Fix bug where sometimes collisions are shut off (for now)
             //NOTE: Bug seems to coorespond with "stack empty" error
+        }
+
+        //Get Keyboard input for part launching
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Input.GetKey(KeyCode.W)) //Front, 0
+            {
+                if (partStack[0].Count > 0)
+                {
+                    Part part = partStack[0].Peek();
+                    StartCoroutine(part.LaunchPart());
+                }
+            }
+            if (Input.GetKey(KeyCode.S)) //Back, 1
+            {
+                if (partStack[1].Count > 0)
+                {
+                    Part part = partStack[1].Peek();
+                    StartCoroutine(part.LaunchPart());
+                }
+            }
+            if (Input.GetKey(KeyCode.D)) //Right, 2
+            {
+                if (partStack[2].Count > 0)
+                {
+                    Part part = partStack[2].Peek();
+                    StartCoroutine(part.LaunchPart());
+                }
+            }
+            if (Input.GetKey(KeyCode.A)) //Left, 3
+            {
+                if (partStack[3].Count > 0)
+                {
+                    Part part = partStack[3].Peek();
+                    StartCoroutine(part.LaunchPart());
+                }
+            }
         }
     }
 

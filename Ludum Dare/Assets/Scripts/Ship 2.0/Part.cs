@@ -60,23 +60,12 @@ public class Part : MonoBehaviour
                 //Attach line to center of attached target
                 line.SetPosition(0, transform.position);
                 line.SetPosition(1, attachedTarget.transform.position);
-
-                //Get Keyboard Input
-                if (Input.GetKey(activeKey) && Input.GetKeyDown(KeyCode.Space))
-                {
-                    //Check if the most recent addition to the list is this thruster
-                    int count = player.PartStack[shipSide].Count;
-
-                    if (player.PartStack[shipSide].Peek() == this)
-                    {
-                        //Shoot off
-                        StartCoroutine(LaunchPart());
-                    }
-                }
+                /*
                 if (Input.GetKey(KeyCode.Y))
                 {
                     StartCoroutine(KnockedOff());
                 }
+                */
 
                 break;
         }
@@ -128,7 +117,7 @@ public class Part : MonoBehaviour
         }
     }
 
-    protected virtual IEnumerator LaunchPart()
+    public virtual IEnumerator LaunchPart()
     {
         //FIRE OFF PART BEHAVIOR
         //OVERRIDE THIS

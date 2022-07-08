@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class TestEnemyBullet : MonoBehaviour
 {
+    Rigidbody2D rb;
+
     // Start is called before the first frame update
     void Start()
     {
-        Destroy(gameObject, 5.0f);
+        Destroy(gameObject, 3.0f);
+        rb = gameObject.GetComponent<Rigidbody2D>();
+        rb.AddForce(gameObject.transform.right * 200.0f);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.position += transform.right * Time.deltaTime * 20.0f;
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

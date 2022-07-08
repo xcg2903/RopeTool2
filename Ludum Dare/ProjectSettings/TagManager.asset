@@ -23,8 +23,8 @@ TagManager:
   - Ship
   - Wall
   - PlayerThruster
-  - BG
-  - 
+  - EnemyBullet
+  - Enemy
   - 
   - 
   - 

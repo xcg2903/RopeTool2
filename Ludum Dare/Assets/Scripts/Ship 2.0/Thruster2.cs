@@ -5,8 +5,8 @@ using UnityEngine;
 public class Thruster2 : Part
 {
     //Forces
-    float thrustForce = 8.0f;
-    float angularAdjuster = 10.0f; //The number you divide the angular velocity by when offsetting torque
+    float thrustForce = 12.0f;
+    float angularAdjuster = 7.5f; //The number you divide the angular velocity by when offsetting torque
     float velocityCurve;
     Vector2 currentForce;
 
@@ -73,7 +73,7 @@ public class Thruster2 : Part
         }
     }
 
-    protected override IEnumerator LaunchPart()
+    public override IEnumerator LaunchPart()
     {
         //Remove tether
         Destroy(gameObject.GetComponent<FixedJoint2D>());
