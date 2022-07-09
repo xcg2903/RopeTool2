@@ -68,6 +68,7 @@ public class Shield : Part
     {
         //Remove tether
         Destroy(gameObject.GetComponent<FixedJoint2D>());
+        Destroy(gameObject.GetComponent<MainShipCollisions>());
         line.SetPosition(0, Vector3.zero);
         line.SetPosition(1, Vector3.zero);
         line.enabled = false;
@@ -81,6 +82,7 @@ public class Shield : Part
         animator.SetBool("active", true); //Animate active
         lightning.SetActive(true); //Turn on hitbox
         barrier.SetActive(false); //Turn off box covering attack hitbox
+
         Vector2 launchForce = rb.transform.right * rb.velocity.magnitude * 2;
         if (launchForce.magnitude < 24)
         {

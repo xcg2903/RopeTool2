@@ -133,7 +133,6 @@ public class Part : MonoBehaviour
     }
     protected virtual IEnumerator KnockedOff()
     {
-
         //Apply force in opposite direction of player
         Vector3 playerPos = player.gameObject.transform.position;
         float directx = transform.position.x - playerPos.x;
@@ -142,6 +141,7 @@ public class Part : MonoBehaviour
 
         //Remove tether
         Destroy(gameObject.GetComponent<FixedJoint2D>());
+        Destroy(gameObject.GetComponent<MainShipCollisions>());
         line.SetPosition(0, Vector3.zero);
         line.SetPosition(1, Vector3.zero);
         line.enabled = false;
@@ -184,7 +184,7 @@ public class Part : MonoBehaviour
         }
 
         //Make this thruster able to collect more thrusters
-        gameObject.AddComponent<MainShipCollisions>();
+        //gameObject.AddComponent<MainShipCollisions>();
     }
 
     public void SpawnSparks(Vector2 hitPoint)

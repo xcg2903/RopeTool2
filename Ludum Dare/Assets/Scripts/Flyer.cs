@@ -100,7 +100,6 @@ public class Flyer : MonoBehaviour
     {
         gameObject.GetComponentInChildren<SpriteRenderer>().color = Color.red;
         Destroy(gameObject, 0.5f);
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
