@@ -93,12 +93,12 @@ public class Thruster2 : Part
                 //If rocket is close enough
                 if (closestEnemy != null)
                 {
-                    if(Vector2.Distance(closestEnemy.transform.position, transform.position) < 7)
+                    if(Vector2.Distance(closestEnemy.transform.position, transform.position) < 5)
                     {
                         Vector2 direction = closestEnemy.transform.position - transform.position;
                         direction.Normalize();
                         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                        transform.localEulerAngles = new Vector3(0f, 0f, Mathf.LerpAngle(transform.localEulerAngles.z, angle, Time.deltaTime * 8));     
+                        transform.localEulerAngles = new Vector3(0f, 0f, Mathf.LerpAngle(transform.localEulerAngles.z, angle, Time.deltaTime * 10));     
                     }
                 }
                 //rb.AddForce(rb.transform.right * thrustForce);

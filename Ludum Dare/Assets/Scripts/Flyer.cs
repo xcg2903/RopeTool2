@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flyer : MonoBehaviour
+public class Flyer : Enemy
 {
     //Variables
     GameObject player;
@@ -32,19 +32,16 @@ public class Flyer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Switch State
-        if(state == State.Roaming && Vector2.Distance(transform.position, player.transform.position) < 30)
-        {
-            state = State.Attacking;
-        }
-        if (state == State.Attacking && Vector2.Distance(transform.position, player.transform.position) > 50)
-        {
-            state = State.Roaming;
-        }
 
         switch(state)
         {
             case State.Roaming:
+                //Switch State
+                if(Vector2.Distance(transform.position, player.transform.position) < 30)
+                {
+                    state = State.Attacking;
+                }
+                //Change direction
                 timer -= Time.deltaTime;
                 if(timer < 0)
                 {
@@ -53,6 +50,12 @@ public class Flyer : MonoBehaviour
                 break;
 
             case State.Attacking:
+                //Switch State
+                if(Vector2.Distance(transform.position, player.transform.position) > 50)
+                {
+                    state = State.Roaming;
+                }
+                //Shoot
                 shootTimer -= Time.deltaTime;
                 if (shootTimer < 0)
                 {
@@ -92,21 +95,7 @@ public class Flyer : MonoBehaviour
 
     void Shoot()
     {
-        //Instantiate(bullet, transform.position, Quaternion.Euler(new Vector3(0, 0, rb.rotation)));
-        shootTimer = 3.0f;
-    }
-
-    private void GotHit()
-    {
-        gameObject.GetComponentInChildren<SpriteRenderer>().color = Color.red;
-        Destroy(gameObject, 0.5f);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.GetContact(0).collider.gameObject.tag == "PlayerAttack")
-        {
-            GotHit();
-        }
+        Instantiate(bullet, transform.position, Quaternion.Euler(new Vector3(0, 0, rb.rotation)));
+        shootTimer = 4.0f;
     }
 }

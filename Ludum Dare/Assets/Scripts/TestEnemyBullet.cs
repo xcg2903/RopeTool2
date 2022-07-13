@@ -23,9 +23,9 @@ public class TestEnemyBullet : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         //Debug.Log(collision.gameObject.tag);
-        if (collision.GetContact(0).collider.gameObject.tag == "PlayerAttack")
-        {
-            Destroy(gameObject);
-        }
+        //if (collision.GetContact(0).collider.gameObject.tag == "PlayerAttack")
+        //{
+            Destroy(gameObject, 0.25f);
+        //}
     }
 }
