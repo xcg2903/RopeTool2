@@ -5,19 +5,19 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     //Variables
-    [SerializeField] Flyer[] flyers;
+    [SerializeField] Enemy[] enemies;
 
     //Properties
-    public Flyer[] Flyers
+    public Enemy[] Enemies
     {
-        get { return flyers; }
-        set { flyers = value; }
+        get { return enemies; }
+        set { enemies = value; }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        flyers = FindObjectsOfType<Flyer>();
+        enemies = FindObjectsOfType<Enemy>();
     }
 
     // Update is called once per frame

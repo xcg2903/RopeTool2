@@ -22,10 +22,14 @@ public class TestEnemyBullet : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //Debug.Log(collision.gameObject.tag);
-        //if (collision.GetContact(0).collider.gameObject.tag == "PlayerAttack")
-        //{
+        if(collision.gameObject.layer == 9) //Wall
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
             Destroy(gameObject, 0.25f);
+        }
         //}
     }
 }

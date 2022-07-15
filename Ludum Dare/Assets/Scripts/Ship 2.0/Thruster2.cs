@@ -69,22 +69,22 @@ public class Thruster2 : Part
             case State.Fire:
 
                 //Find the closest enemy
-                Flyer closestEnemy = null;
-                for(int i = 0; i < enemyManager.Flyers.Length; i++)
+                Enemy closestEnemy = null;
+                for(int i = 0; i < enemyManager.Enemies.Length; i++)
                 {
-                    if (enemyManager.Flyers[i] != null)
+                    if (enemyManager.Enemies[i] != null)
                     {
                         if (closestEnemy == null)
                         {
-                            closestEnemy = enemyManager.Flyers[i];
+                            closestEnemy = enemyManager.Enemies[i];
                         }
                         else
                         {
                             float distanceToCurrent = Vector2.Distance(transform.position, closestEnemy.transform.position);
-                            float distanceToThis = Vector2.Distance(transform.position, enemyManager.Flyers[i].transform.position);
+                            float distanceToThis = Vector2.Distance(transform.position, enemyManager.Enemies[i].transform.position);
                             if (distanceToThis < distanceToCurrent)
                             {
-                                closestEnemy = enemyManager.Flyers[i];
+                                closestEnemy = enemyManager.Enemies[i];
                             }
                         }
                     }
